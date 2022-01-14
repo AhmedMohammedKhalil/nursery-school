@@ -5,9 +5,8 @@
     $pageTitle = "Help";
     $activites = true;
     include($tmp.'header.php');
+    $contacts=$_SESSION['contacts'];
 ?>
-    
-    
     <div class="contact">
       <div class="container">
         <h2 class="special-heading">Contact</h2>
@@ -18,19 +17,18 @@
               <th>Name</th>
               <th>Contact</th>
             </tr>
+      
+            <?php foreach ($contacts as $c) {?>
             <tr>
-              <td>phone</td>
-              <td>695325</td>
+              <td><?php echo $c['type'] ?></td>
+              <td><?php echo $c['contact'] ?></td>
             </tr>
-            <tr>
-              <td>email</td>
-              <td>nursery@gmail.com</td>
-            </tr>
-            <tr>
-              <td>phone</td>
-              <td>965351</td>
-            </tr>
-           
+            <?php }
+            if(empty($contacts)){
+              echo "<tr><td colspan='2'>Not Found Contacts</td></tr>";
+            }
+            ?>
+            
           </table>
         </div>
       </div>
