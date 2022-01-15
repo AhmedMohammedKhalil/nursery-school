@@ -31,8 +31,11 @@ if($method != "") {
     if($method == 'changePassword') {
         $Parent->changePassword();
     }
-    if($method == 'allkids') {
+    if($method == 'allKids') {
         $Parent->showAllKids();
+    }
+    if($method == 'showKidsAdvisors') {
+        $Parent->showKidsAdvisors();
     }
     if($method == 'notifications') {
         $Parent->showNotifications();
@@ -43,7 +46,36 @@ if($method != "") {
     if($method == 'logout') {
         $Parent->logout();
     }
- 
+    if($method == 'payForKid') {
+        $id = $_GET['id'];
+        $Parent->payForKid($id);
+    }
+    if($method == 'addKid') {
+        $Parent->addKid();
+    }
+    if($method == 'storeKid') {
+        $Parent->storeKid();
+    }
+    if($method == 'editKid') {
+        $id = $_GET['id'];
+        $Parent->editKid($id);
+    }
+    if($method == 'updateKid') {
+        $Parent->updateKid();
+    }
+    if($method == 'deleteKid') {
+        $id = $_GET['id'];
+        $Parent->deleteKid($id);
+    }
+    if($method == 'showKid') {
+        $id = $_GET['id'];
+        $Parent->showKid($id);
+    }
+    if($method == 'showStaff') {
+        $id = $_GET['id'];
+        $Parent->showStaff($id);
+    }
+    
 
 }
 
@@ -347,9 +379,7 @@ class ParentContoller {
         header('location: '.$this->Path.'changePassword.php');
 
     }
-    public function showAllKids() {
-        
-    }
+    
 
     public function showNotifications() {
         
@@ -365,5 +395,213 @@ class ParentContoller {
         unset($_SESSION['username']);
         header('location: ../');
 
+    }
+
+    public function showAllKids() {
+        $parent_id=$_SESSION['parent']['id'];
+        $kids= selectAll('*','kids',"kids.parent_id={$parent_id}");
+        $_SESSION['allkids']=$kids;
+        header('location: ../parent/allkids.php');
+    }
+    public function showKidsAdvisors() {
+        $parent_id=$_SESSION['parent']['id'];
+        $kids= selectAll('kids.*,staff.name AS staff_name','kids,staff,parent',"kids.staff_id =staff.id AND kids.parent_id=parent.id AND parent.id={$parent_id}");
+        $_SESSION['kids_advisors']=$kids;
+        header('location: ../parent/kidsadvisors.php');
+    }
+
+    public function showKid($id)
+    {
+        if(isset($_SESSION['kid']))
+        {
+            unset($_SESSION['kid']);
+        }
+        $kid_id=$id;
+        $kid= selectOne('*','kids',"id={$kid_id}");
+        $_SESSION['kid']=$kid;
+        header('location: ../parent/kidsinfo.php');
+    }
+    public function showStaff($id)
+    {
+        if(isset($_SESSION['staff_info']))
+        {
+            unset($_SESSION['staff_info']);
+        }
+        $staff_id=$id;
+        $staff_info= selectOne('*','staff',"id={$staff_id}");
+        $_SESSION['staff_info']=$staff_info;
+        header('location: ../parent/staffinfo.php');
+    }
+    public function payForKid($id)
+    {
+        exit();
+    }
+    public function addKid()
+    {
+        header('location: ../parent/addkid.php');
+    }
+    public function storeKid()
+    {   
+        $error=[];
+        if($_SERVER['REQUEST_METHOD'] == 'POST') { 
+            if(isset($_POST['add_kid'])) {
+                $fname=trim($_POST['fname']);
+                $lname=trim($_POST['lname']);
+                $vaccination = trim($_POST['vaccination']);
+                $class = trim($_POST['class']);
+                $birth_date = trim($_POST['birth_date']);
+                $description = trim($_POST['description']);
+                $parent_id=$_SESSION['parent']['id'];
+                $data = [
+                    'fname'=>$fname,
+                    'lname'=>$lname,
+                    'vaccination'=>$vaccination,
+                    'class'=>$class,
+                    'birth_date'=>$birth_date,
+                    'description'=>$description,
+                    'parent_id'=>$parent_id
+
+                ];
+                $_SESSION['oldData'] = $data;
+                $error=[];
+                if (empty($fname)) {
+                    array_push($error,"fname required");
+                } 
+                if (empty($lname)) {
+                    array_push($error,"lname required");
+                } 
+                if (empty($vaccination)) {
+                    array_push($error,"vaccination required");
+                } 
+                if (empty($class)) {
+                    array_push($error,"class required");
+                }   
+                if (empty($birth_date)) {
+                    array_push($error,"birthdate required");
+                } 
+                if (empty($description)) {
+                    array_push($error,"description required");
+                } 
+                if(!empty($error))
+                {
+                    $_SESSION['errors'] = $error;
+                    header('location: ../parent/addkid.php');
+                    exit();
+                }
+                $keys=join(',',array_keys($data));
+                $inserted=array_values($data);
+                $allstaff=selectAll('*','staff',"role='staff'");
+                if(!empty($allstaff))
+                {
+                    $kid_id = insert($keys,'kids','?,?,?,?,?,?,?',$inserted);
+                    if($kid_id) 
+                    { 
+                        foreach ($allstaff as $s)
+                        {
+                        
+                            $data = [
+                                'message'=>'New kids added',
+                                'meesage_to'=>'staff',
+                                'staff_id'=>$s['id'],
+                                'kid_id'=>$kid_id
+                            ];
+                            $keys=join(',',array_keys($data));
+                            $inserted=array_values($data);
+                            insertAll($keys,'notifications','?,?,?,?',$inserted);
+                        }
+                        $this->showAllKids();
+                    }
+                }
+                else
+                {
+                    header('location: ../errors/KidsError.php');
+                }
+            }
+        }
+    }
+    public function editKid($id)
+    {   
+        if(isset($_SESSION['kid']))
+        {
+            unset($_SESSION['kid']);
+        }
+        $kid_id=$id;
+        $kid= selectOne('*','kids',"id={$kid_id}");
+        $_SESSION['kid']=$kid;
+        header('location: ../parent/editkid.php');
+    }
+    public function updateKid()
+    {   
+        $error=[];
+        if($_SERVER['REQUEST_METHOD'] == 'POST') { 
+            if(isset($_POST['update_kid'])) {
+                $fname=trim($_POST['fname']);
+                $lname=trim($_POST['lname']);
+                $vaccination = trim($_POST['vaccination']);
+                $class = trim($_POST['class']);
+                $birth_date = trim($_POST['birth_date']);
+                $description = trim($_POST['description']);
+                $kid_id=trim($_POST['kid_id']);
+                $data = [
+                    'fname'=>$fname,
+                    'lname'=>$lname,
+                    'vaccination'=>$vaccination,
+                    'class'=>$class,
+                    'birth_date'=>$birth_date,
+                    'description'=>$description
+
+                ];
+                $_SESSION['oldData'] = $data;
+                $error=[];
+                if (empty($fname)) {
+                    array_push($error,"fname required");
+                } 
+                if (empty($lname)) {
+                    array_push($error,"lname required");
+                } 
+                if (empty($vaccination)) {
+                    array_push($error,"vaccination required");
+                } 
+                if (empty($class)) {
+                    array_push($error,"class required");
+                }   
+                if (empty($birth_date)) {
+                    array_push($error,"birthdate required");
+                } 
+                if (empty($description)) {
+                    array_push($error,"description required");
+                } 
+                if(!empty($error))
+                {
+                    $_SESSION['errors'] = $error;
+                    header('location: ../parent/editkid.php');
+                    exit();
+                }
+              
+                $data = [
+                    'fname'=>$fname,
+                    'lname'=>$lname,
+                    'vaccination'=>$vaccination,
+                    'class'=>$class,
+                    'birth_date'=>$birth_date,
+                    'description'=>$description,
+                    'id' => $kid_id
+                ];
+                $success = update('fname = ? , lname = ? , vaccination = ? , class = ?, birth_date = ? , description = ?','kids',array_values($data),'id = ?');
+                if($success) { 
+                        unset($_SESSION['kid']);
+                        $this->showAllKids();
+                    }
+                
+            }
+        }
+    }
+    public function deleteKid($id)
+    {
+        $data=[$id];
+        delete('notifications',"kid_id= ?",$data) ;
+        delete('payments',"kids_id= ?",$data) ;
+        delete('kids',"id= ?",$data) ;
+        $this->showAllKids();
     }
 }
