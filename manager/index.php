@@ -11,7 +11,7 @@
         <h2 class="special-heading">Manager Profile</h2>
         <div class="kids-info flex">
           <div>
-              <img style="width: 300px;height:300px;border-radius:50%" src="<?php echo $imgs.'manager.png' ?>" alt="">
+              <img style="width: 300px;height:300px;border-radius:50%" src="<?php echo $imgs.'manager.png' ?>" alt="Manager image Profile">
           </div>
           <h3><?php echo $_SESSION['manager']['username'] ?></h3>
           <h3><?php echo $_SESSION['manager']['name'] ?></h3>

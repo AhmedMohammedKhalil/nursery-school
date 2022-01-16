@@ -25,15 +25,18 @@
           ?>
           <div style="display: flex;justify-content:center;flex-direction:column">
             <div>
-                <input type="text" name="username" id="username" placeholder="Enter Username" required
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" title="Enter Username" required
                 value="<?php if(isset($_SESSION['errors'])){ echo $username; } else { echo $_SESSION['staff']['username'];}?>">
             </div>
             <div>
-                <input type="text" name="name" id="name" placeholder="Enter name" required
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" title="Enter name" required
                 value="<?php if(isset($_SESSION['errors'])) { echo $name ;} else { echo $_SESSION['staff']['name'];}?>">
             </div>
             <div>
-                <input type="text" name="position" id="position" placeholder="Enter position" required
+                <label for="position">Position</label>
+                <input type="text" name="position" id="position" title="Enter position" required
                 value="<?php if(isset($_SESSION['errors'])) { echo $position ; } else { echo $_SESSION['staff']['position'];}?>">
             </div>
             <div>

@@ -113,6 +113,7 @@ class StaffContoller {
                 $name=trim($_POST['name']);
                 $username = trim($_POST['username']);
                 $position = trim($_POST['position']);
+                $role = trim($_POST['role']);
                 $password = trim($_POST['password']);
                 $confirm_password = trim($_POST['confirm_password']);
                 $hashpassword = password_hash($password, PASSWORD_BCRYPT);
@@ -121,7 +122,7 @@ class StaffContoller {
                     'name'=>$name,
                     'position'=>$position,
                     'password'=> $hashpassword,
-
+                    'role'=>$role
                 ];
                 $_SESSION['oldData'] = $data;
                 $error=[];
@@ -135,13 +136,13 @@ class StaffContoller {
                     array_push($error,"position required");
                 } 
                 if (empty($password)) {
-                    array_push($error,"password requires");
+                    array_push($error,"password required");
                 } 
                 if (strlen($password)>0 && strlen($password)<8) {
                     array_push($error,"this password less than 8 digit");
                 } 
                 if (empty($confirm_password)) {
-                    array_push($error,"confirm_password requires");
+                    array_push($error,"confirm_password required");
                 } 
                 if ($password!=$confirm_password) {
                     array_push($error,"passwords not matched");

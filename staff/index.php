@@ -11,7 +11,7 @@
         <h2 class="special-heading">Staff Profile</h2>
         <div class="kids-info flex">
           <div>
-              <img style="width: 300px;height:300px;border-radius:50%" src="<?php echo $imgs.'staff.jpg' ?>" alt="">
+              <img style="width: 300px;height:300px;border-radius:50%" src="<?php echo $imgs.'staff.jpg' ?>" alt="staff image Profile">
           </div>
           <h3><?php echo $_SESSION['staff']['username'] ?></h3>
           <h3><?php echo $_SESSION['staff']['name'] ?></h3>

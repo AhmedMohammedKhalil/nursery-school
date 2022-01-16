@@ -33,8 +33,8 @@
                     </p>
                 </div>
             </div>
-            <div class="image" style="display: flex;height:auto">
-                <img src="<?php echo $imgs?>events.png" alt="" />
+            <div class="image" >
+                <img src="<?php echo $imgs?>events.png" alt="Events Photo" />
             </div>
         </div>
         </div>
@@ -44,8 +44,8 @@
         <div class="container">
         <h2 class="special-heading">About</h2>
         <div class="section-content">
-            <div class="image" style="display: flex;height:auto">
-                <img src="<?php echo $imgs?>about.jpg" alt="" />
+            <div class="image">
+                <img src="<?php echo $imgs?>about.jpg" alt="About photo" />
             </div>
             <div class="text">
             <p>

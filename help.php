@@ -13,7 +13,7 @@
         <h2 class="special-heading">Contact</h2>
         <div class="info">
           <p class="label">Feel free to drop us a line at:</p>
-          <table id="table" style="width: 50%;margin:auto">
+          <table id="table">
             <tr>
               <th>Name</th>
               <th>Contact</th>

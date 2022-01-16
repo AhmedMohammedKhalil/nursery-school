@@ -9,9 +9,10 @@
     <div class="section" id="search">
       <div class="container">
         <form action="" class="form">
-          <div style="display: flex;justify-content:center">
+          <div>
             <div>
-              <input type="search" name="search" id="searching" placeholder="Search...">
+              <label for="search">Search</label>
+              <input type="search" name="search" id="searching" title="Search...">
             </div>
             <div>
               <input type="submit" value="Search">

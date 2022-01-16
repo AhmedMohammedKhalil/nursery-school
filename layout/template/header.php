@@ -18,7 +18,7 @@
 	<body>
 	<div class="header">
       <div class="container">
-        <img class="logo" src="<?php echo $imgs.'logo.png' ?>" alt="" />
+        <img class="logo" src="<?php echo $imgs.'logo.png' ?>" alt="logo photo" />
         <div class="links">
           <ul>
             <li><a href="<?php echo $app?>index.php">Home</a></li>

@@ -27,22 +27,35 @@
           ?>
             <div style="display: flex;justify-content:center;flex-direction:column">
               <div>
-                <input type="text" name="username" id="username" placeholder="Enter Username" required
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" title="Enter Username" required
                   value="<?php if(isset($_SESSION['errors'])) echo $username?>">
               </div>
               <div>
-                <input type="text" name="name" id="name" placeholder="Enter name" required
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" title="Enter name" required
                 value="<?php if(isset($_SESSION['errors'])) echo $name?>">
               </div>
               <div>
-                <input type="text" name="position" id="position" placeholder="Enter position" required
+                <label for="position">Position</label>
+                <input type="text" name="position" id="position" title="Enter position" required
                 value="<?php if(isset($_SESSION['errors'])) echo $position?>">
               </div>
               <div>
-                <input type="password" name="password" id="password" placeholder="Enter password">
+                <label for="role">Role</label>
+                <select name="role" id="role" title="choose Role">
+                  <option value="staff" <?php if(isset($_SESSION['errors']) && $role == 'staff') echo 'selected'?>>Staff</option>
+                  <option value="advisor" <?php if(isset($_SESSION['errors']) && $role == 'advisor') echo 'selected'?>>Advisor</option>
+                </select>
+                
               </div>
               <div>
-                  <input type="password" name="confirm_password" id="confirm_password" placeholder="Enter Password again">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" title="Enter Password" required>
+              </div>
+              <div>
+                  <label for="confirm_password">Confirm Password</label>
+                  <input type="password" name="confirm_password" id="confirm_password" title="Enter Password again" required>
               </div>
               <div>
                 <span>if have account <a href="<?php echo $cont.'StaffController.php?method=showLogin'?>">Make Login</a></span>

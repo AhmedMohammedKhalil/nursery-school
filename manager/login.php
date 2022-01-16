@@ -25,11 +25,13 @@
           ?>
           <div style="display: flex;justify-content:center;flex-direction:column">
             <div>
-              <input type="text" name="username" id="username" placeholder="Enter Username" required
+              <label for="username">Username</label>
+              <input type="text" name="username" id="username" title="Enter Username" required
                 value="<?php if(isset($_SESSION['errors'])) echo $username?>">
             </div>
             <div>
-                <input type="password" name="password" id="password" placeholder="Enter Password">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" title="Enter Password">
             </div>
             <div>
               <input type="submit" name="manager_login" value="Login">

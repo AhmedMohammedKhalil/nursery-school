@@ -36,6 +36,11 @@ if($method != "") {
     if($method == 'dashboard') {
         $manager->showDashboard();
     }
+    if($method == 'showNews') {
+        $manager->showNews();
+    }
+    
+   
     if($method == 'logout') {
         $manager->logout();
     }
@@ -137,8 +142,6 @@ class ManagerController {
         }
     }
 
-
-
     public function editProfile() {
         $error=[];
         if($_SERVER['REQUEST_METHOD'] == 'POST') { 
@@ -194,7 +197,6 @@ class ManagerController {
         }
     }
 
-
     public function showSettings() {
         header('location: '.$this->Path.'settings.php');
     }
@@ -209,8 +211,18 @@ class ManagerController {
     }
 
     public function showDashboard() {
-
+        header('location: '.$this->Path.'dashboard.php');
     }
+
+    public function showNews() {
+        $_SESSION['news'] = selectAll('*','news',null,'id DESC');
+        header('location: '.$this->Path.'allNews.php');
+    }
+
+    
+
+   
+
 
     public function logout(){
         unset($_SESSION['manager']);
