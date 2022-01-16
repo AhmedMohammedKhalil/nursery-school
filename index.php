@@ -5,6 +5,9 @@
     $pageTitle = "Home";
     $activites = true;
     include($tmp.'header.php');
+    include_once('layout/functions/functions.php');
+    $news=selectAll('*','news');
+
 ?>
 
     <div class="landing">
@@ -13,25 +16,21 @@
         <p>We are Nursry School - Best Website for Manage Kids in Our School</p>
         </div>
     </div>
+    <?php if(isset($news)) { ?>
     <div class="section" id="">
         <div class="container">
+
         <h2 class="special-heading">News</h2>
         <div class="section-content">
             <div class="text">
+                <?php foreach ($news as $n) {  ?>
                 <div>
-                    <h3>title</h3>
+                    <h3><?php echo $n['title'] ?></h3>
                     <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil nemo neque voluptate tempora velit cum non,
-                    fuga vitae architecto delectus sed maxime rerum impedit aliquam obcaecati, aut excepturi iusto laudantium!
+                    <?php echo nl2br($n['content']) ?>
                     </p>
                 </div>
-                <div>
-                    <h3>title</h3>
-                    <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil nemo neque voluptate tempora velit cum non,
-                    fuga vitae architecto delectus sed maxime rerum impedit aliquam obcaecati, aut excepturi iusto laudantium!
-                    </p>
-                </div>
+                <?php }?>
             </div>
             <div class="image" >
                 <img src="<?php echo $imgs?>events.png" alt="Events Photo" />
@@ -39,6 +38,7 @@
         </div>
         </div>
     </div>
+    <?php }?>
 
     <div class="section" id="about">
         <div class="container">

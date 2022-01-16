@@ -5,17 +5,19 @@
     $pageTitle = "Services";
     $activites = true;
     include($tmp.'header.php');
+    $services=$_SESSION['services'];
+    
+
 ?>
     <div class="section" id="search">
       <div class="container">
-        <form action="" class="form">
-          <div>
+        <form action="<?php echo $cont."HomeController.php?method=search"?>" class="form" method="POST">
+          <div style="display: flex;justify-content:center">
             <div>
-              <label for="search">Search</label>
-              <input type="search" name="search" id="searching" title="Search...">
+              <input type="search" name="search" id="searching" placeholder="Search..." value="<?php if(isset($_SESSION['oldsearch'])) echo $_SESSION['oldsearch']; ?>">
             </div>
             <div>
-              <input type="submit" value="Search">
+              <input type="submit" value="Search" name="servicesearch">
             </div>
           </div>
         </form>
@@ -23,25 +25,23 @@
     </div>
 
     
-    <div class="section" id="services">
+    <div class="section" id="services" style="min-height: 76.4 vh;">
       <div class="container">
         <h2 class="special-heading">Services</h2>
         <div class="section-content">
           <div class="text">
-            <div>
-              <h3>title</h3>
+            <?php foreach ($services as $s) {?>
+              <div>
+              <h3><?php echo $s['title'] ?></h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil nemo neque voluptate tempora velit cum non,
-                fuga vitae architecto delectus sed maxime rerum impedit aliquam obcaecati, aut excepturi iusto laudantium!
+              <?php echo nl2br($s['body']) ?>
               </p>
-            </div>
-            <div>
-              <h3>title</h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil nemo neque voluptate tempora velit cum non,
-                fuga vitae architecto delectus sed maxime rerum impedit aliquam obcaecati, aut excepturi iusto laudantium!
-              </p>
-            </div>
+              </div>
+            <?php }
+            if(empty($services)){
+              echo "<h3 class='text' style='text-align:center;'>Services Not Found</h3>";
+            }
+            ?>
           </div>
         </div>
       </div>
@@ -50,4 +50,5 @@
 <?php
     include($tmp.'footer.php');
     ob_end_flush();
+    unset($_SESSION['oldsearch']);
 

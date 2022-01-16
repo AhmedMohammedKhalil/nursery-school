@@ -11,7 +11,7 @@ function selectOne($select,$table,$where = null) {
         echo $e;
         //header('location: ../../errors/Error.php');
     }
-   
+
     $row = $statment->fetch(PDO::FETCH_ASSOC);
 
     return $row;
@@ -50,6 +50,20 @@ function insert($keys,$table,$values,$data ) {
     }
     $id = $con->lastInsertId();
     return $id;
+}
+
+function insertAll($keys,$table,$values,$data ) {
+    global $con;
+    try {
+
+    $statment = $con->prepare("INSERT INTO $table($keys) VALUES({$values})");
+    $statment->execute($data);
+
+    }catch (PDOException $e){
+        echo $e;
+        exit();
+        //header('location: ../../errors/Error.php');
+    }
 }
 
 
