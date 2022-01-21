@@ -57,6 +57,20 @@
                   <label for="confirm_password">Confirm Password</label>
                   <input type="password" name="confirm_password" id="confirm_password" title="Enter Password again" required>
               </div>
+ 
+              <div>
+                  <label class="label" for="captcha">Enter Words in Picture</label>
+                  <div style="display: flex;margin-bottom:20px;justify-content:space-between">
+                    <input class="input" type="text" name="captcha" id="captcha" required title="Enter Captcha" placeholder="Enter captcha"  style="flex:1 ;margin:0 10px 0 0">
+                    <img src="<?php echo $func.'captcha.php'?>" alt="captcha image">
+                  </div>
+                  <?php if(isset($_GET['error'])&& isset($captcha_error) && !empty($captcha_error))
+                  {
+                      echo "<span style='color:red'>{$captcha_error}</span>";
+                  } 
+                  ?>
+            </div>
+
               <div>
                 <span>if have account <a href="<?php echo $cont.'StaffController.php?method=showLogin'?>">Make Login</a></span>
               </div>

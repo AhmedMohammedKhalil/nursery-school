@@ -63,6 +63,7 @@ class StaffContoller {
             if(isset($_POST['staff_login'])) {
                 $username = trim($_POST['username']);
                 $password = trim($_POST['password']);
+                $captcha = trim($_POST['captcha']);
                 $data = [
                     'username'=>$username,
                 ];
@@ -77,6 +78,9 @@ class StaffContoller {
                 if (strlen($password)>0 && strlen($password)<8) {
                     array_push($error,"this password less than 8 digit");
                 }  
+                if ($_SESSION['CAPTCHA_CODE'] != $captcha) {
+                    array_push($error,"Captcha Not Matched");
+                }
                 $staff = selectOne('*','staff',"username = '$username'");
                 if (empty($staff)) {
                     array_push($error,"this Username not exist in Database");
@@ -96,7 +100,8 @@ class StaffContoller {
                 
                 $_SESSION['staff'] = $staff;
                 $_SESSION['username'] = $staff['username'];
-                header('location: ../');
+                $this->dashboard();
+
 
             }
         }
@@ -116,6 +121,7 @@ class StaffContoller {
                 $role = trim($_POST['role']);
                 $password = trim($_POST['password']);
                 $confirm_password = trim($_POST['confirm_password']);
+                $captcha = trim($_POST['captcha']);
                 $hashpassword = password_hash($password, PASSWORD_BCRYPT);
                 $data = [
                     'username'=>$username,
@@ -147,6 +153,9 @@ class StaffContoller {
                 if ($password!=$confirm_password) {
                     array_push($error,"passwords not matched");
                 } 
+                if ($_SESSION['CAPTCHA_CODE'] != $captcha) {
+                    array_push($error,"Captcha Not Matched");
+                }
                 $staff = selectOne('*','staff',"username = '$username'");
                 if (!empty($staff)) {
                     array_push($error,"this Username exist in Database");
@@ -164,7 +173,7 @@ class StaffContoller {
                     $result = selectOne('*','staff','id = '.$id);
                     $_SESSION['staff'] = $result;
                     $_SESSION['username'] = $result['username'];
-                    header('location: ../');
+                    $this->dashboard();  
                 }
             }
         }
@@ -297,5 +306,9 @@ class StaffContoller {
         unset($_SESSION['staff']);
         unset($_SESSION['username']);
         header('location: ../');
+    }
+
+    public function dashboard() {
+        header('location: '.$this->Path.'dashboard.php');
     }
 }

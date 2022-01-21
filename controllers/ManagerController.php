@@ -60,6 +60,7 @@ class ManagerController {
             if(isset($_POST['manager_login'])) {
                 $username = trim($_POST['username']);
                 $password = trim($_POST['password']);
+                $captcha = trim($_POST['captcha']);
                 $data = [
                     'username'=>$username,
                 ];
@@ -69,6 +70,9 @@ class ManagerController {
                 } 
                 if (empty($password)) {
                     array_push($error,"password requires");
+                } 
+                if ($_SESSION['CAPTCHA_CODE'] != $captcha) {
+                    array_push($error,"Captcha Not Matched");
                 } 
                 if (strlen($password)>0 && strlen($password)<8) {
                     array_push($error,"this password less than 8 digit");
@@ -93,7 +97,9 @@ class ManagerController {
                 
                 $_SESSION['manager'] = $manager;
                 $_SESSION['username'] = $manager['username'];
-                header('location: ../');
+               // header('location: ../');
+                header('location: ../manager/dashboard.php');
+
 
             }
         }

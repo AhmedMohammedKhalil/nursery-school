@@ -76,6 +76,9 @@ if($method != "") {
         $Parent->showStaff($id);
     }
     
+    if($method == "dashboard") {
+        $Parent->dashboard();
+    }
 
 }
 
@@ -91,6 +94,7 @@ class ParentContoller {
             if(isset($_POST['parent_login'])) {
                 $username = trim($_POST['username']);
                 $password = trim($_POST['password']);
+                $captcha = trim($_POST['captcha']);
                 $data = [
                     'username'=>$username,
                 ];
@@ -98,6 +102,9 @@ class ParentContoller {
                 $error=[];
                 if (empty($username)) {
                     array_push($error,"username required");
+                } 
+                if ($_SESSION['CAPTCHA_CODE'] != $captcha) {
+                    array_push($error,"Captcha Not Matched");
                 } 
                 if (empty($password)) {
                     array_push($error,"password requires");
@@ -125,8 +132,8 @@ class ParentContoller {
                 $_SESSION['parent'] = $parent;
                 $_SESSION['parent']['phone'] = $result['phone'];
                 $_SESSION['username'] = $parent['username'];
-                header('location: ../');
-
+             //   header('location: ../');
+                $this->dashboard();
             }
         }
     }
@@ -148,6 +155,7 @@ class ParentContoller {
                 $password = trim($_POST['password']);
                 $confirm_password = trim($_POST['confirm_password']);
                 $hashpassword = password_hash($password, PASSWORD_BCRYPT);
+                $captcha = trim($_POST['captcha']);
                 $data = [
                     'username'=>$username,
                     'name'=>$name,
@@ -166,7 +174,10 @@ class ParentContoller {
                     array_push($error,"username required");
                 } 
                 if (empty($ssn)) {
-                    array_push($error,"ssn required");
+                    array_push($error,"Civil Id required");
+                } 
+                if (strlen($ssn) !=12 ) {
+                    array_push($error,"Civil Id Must be 12 digit");
                 } 
                 if (empty($phone) || strlen($phone)<6 || !is_numeric($phone)) {
                     if(empty($phone))
@@ -186,6 +197,9 @@ class ParentContoller {
                 } 
                 if (strlen($password)>0 && strlen($password)<8) {
                     array_push($error,"this password less than 8 digit");
+                } 
+                if ($_SESSION['CAPTCHA_CODE'] != $captcha) {
+                    array_push($error,"Captcha Not Matched");
                 } 
                 if (empty($confirm_password)) {
                     array_push($error,"confirm_password requires");
@@ -230,7 +244,7 @@ class ParentContoller {
                         $_SESSION['parent'] = $result;
                         $_SESSION['parent']['phone'] = $phone;
                         $_SESSION['username'] = $result['username'];
-                        header('location: ../');
+                        $this->dashboard();
                     }
                 }
             }
@@ -603,5 +617,9 @@ class ParentContoller {
         delete('payments',"kids_id= ?",$data) ;
         delete('kids',"id= ?",$data) ;
         $this->showAllKids();
+    }
+
+    public function dashboard() {
+        header('location: '.$this->Path.'dashboard.php');
     }
 }

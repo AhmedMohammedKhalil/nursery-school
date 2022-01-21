@@ -555,3 +555,7 @@ body {
   color: var(--main-color);
 }
 /* End Footer */
+
+.btn-width {
+  width:167.05px;
+}

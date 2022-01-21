@@ -26,30 +26,50 @@
           ?>
             <div style="display: flex;justify-content:center;flex-direction:column">
               <div>
-                <input type="text" name="username" id="username" placeholder="Enter Username" required
+                <label class="label" for="username">User Name</label>
+                <input type="text" title="Enter Username" name="username" id="username" placeholder="Enter Username" required
                   value="<?php if(isset($_SESSION['errors'])) echo $username?>">
               </div>
               <div>
-                <input type="text" name="name" id="name" placeholder="Enter name" required
+                <label class="label" for="name">Name</label>
+                <input type="text" title="Enter name" name="name" id="name" placeholder="Enter name" required
                 value="<?php if(isset($_SESSION['errors'])) echo $name?>">
               </div>
               <div>
-                <input type="text" name="ssn" id="ssn" placeholder="Enter ssn" required
+                <label class="label" for="ssn">Civil Id</label>
+                <input type="text" name="ssn" title="Enter CID" id="ssn" placeholder="Enter CID" required
                   value="<?php if(isset($_SESSION['errors'])) echo $ssn?>">
               </div>
               <div>
-                <input type="text" name="phone" id="phone" placeholder="Enter phone" required
+                <label class="label" for="phone">Phone</label>
+                <input type="text" title="Enter phone" name="phone" id="phone" placeholder="Enter phone" required
                   value="<?php if(isset($_SESSION['errors'])) echo $phone?>">
               </div>
               <div>
-                <input type="password" name="password" id="password" placeholder="Enter password" required>
+                <label class="label" for="password">Password</label>
+                <input type="password" name="password" title="Enter password" id="password" placeholder="Enter password" required>
               </div>
               <div>
-                  <input type="password" name="confirm_password" id="confirm_password" placeholder="Enter Password again" required>
+                  <label class="label"  for="confirm_password">Confirm Password</label>
+                  <input type="password" title="Enter Password again" name="confirm_password" id="confirm_password" placeholder="Enter Password again" required>
               </div>
               <div>
-                <textarea name="address" id="address" rows="6" placeholder="Enter address" required><?php if(isset($_SESSION['errors'])) echo $address?></textarea>
+                <label class="label" for="address">Address</label>
+                <textarea name="address" title="Enter address" id="address" rows="6" placeholder="Enter address" required><?php if(isset($_SESSION['errors'])) echo $address?></textarea>
               </div>
+              <div>
+                  <label class="label" for="captcha">Enter Words in Picture</label>
+                  <div style="display: flex;margin-bottom:20px;justify-content:space-between">
+                    <input class="input" type="text" name="captcha" id="captcha" required title="Enter Captcha" placeholder="Enter captcha"  style="flex:1 ;margin:0 10px 0 0">
+                    <img src="<?php echo $func.'captcha.php'?>" alt="captcha image">
+                  </div>
+                  <?php if(isset($_GET['error'])&& isset($captcha_error) && !empty($captcha_error))
+                  {
+                      echo "<span style='color:red'>{$captcha_error}</span>";
+                  } 
+                  ?>
+              </div>
+
               <div>
                 <span>if have account <a href="<?php echo $cont.'ParentController.php?method=showLogin'?>">Make Login</a></span>
               </div>

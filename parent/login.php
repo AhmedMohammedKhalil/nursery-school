@@ -25,12 +25,28 @@
           ?>
           <div style="display: flex;justify-content:center;flex-direction:column">
             <div>
-              <input type="text" name="username" id="username" placeholder="Enter Username" required
+              <label class="label" for="username">User Name</label>
+              <input type="text" name="username" id="username" title="Enter Username" placeholder="Enter Username" required
                 value="<?php if(isset($_SESSION['errors'])) echo $username?>">
             </div>
             <div>
+                <label class="label" title="password" for="password">Password</label>
                 <input type="password" name="password" id="password" placeholder="Enter Password">
             </div>
+
+            <div>
+            <label class="label" for="captcha">Enter Words in Picture</label>
+                  <div style="display: flex;margin-bottom:20px;justify-content:space-between">
+                    <input class="input" type="text" name="captcha" id="captcha" required title="Enter Captcha" placeholder="Enter captcha"  style="flex:1 ;margin:0 10px 0 0">
+                    <img src="<?php echo $func.'captcha.php'?>" alt="captcha image">
+                  </div>
+                  <?php if(isset($_GET['error'])&& isset($captcha_error) && !empty($captcha_error))
+                  {
+                      echo "<span style='color:red'>{$captcha_error}</span>";
+                  } 
+                  ?>
+            </div>
+
             <div>
                 <span>if don't have account <a href="<?php echo $cont.'ParentController.php?method=showRegister'?>">Make Register</a></span>
             </div>
