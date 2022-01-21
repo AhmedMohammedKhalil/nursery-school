@@ -65,6 +65,11 @@ if($method != "") {
         $staff->acceptedKid();
     }
 
+    if($method == 'sendReminder') {
+        $id = $_GET['id'];
+        $staff->sendReminder($id);
+    }
+
     if($method == 'logout') {
         $staff->logout();
     }
@@ -128,6 +133,7 @@ class StaffContoller {
                 
                 $_SESSION['staff'] = $staff;
                 $_SESSION['username'] = $staff['username'];
+                $_SESSION['msg'] = "Staff Login Successfuly";
                 $this->dashboard();
 
 
@@ -201,6 +207,7 @@ class StaffContoller {
                     $result = selectOne('*','staff','id = '.$id);
                     $_SESSION['staff'] = $result;
                     $_SESSION['username'] = $result['username'];
+                    $_SESSION['msg'] = "Staff Register Successfuly";
                     $this->dashboard();  
                 }
             }
@@ -244,6 +251,7 @@ class StaffContoller {
                 $success = update('password = ?','staff',array_values($data),'id = ?');
                 if($success) {
                     $_SESSION['staff']['password'] = $hashpassword;
+                    $_SESSION['msg'] = "Change Password Successfuly";
                     header('location: '.$this->Path);
                 }
 
@@ -299,6 +307,7 @@ class StaffContoller {
                     $_SESSION['staff']['username'] = $username; 
                     $_SESSION['staff']['name'] = $name; 
                     $_SESSION['staff']['position'] = $position; 
+                    $_SESSION['msg'] = "Edit Profile Successfuly";
                     header('location: '.$this->Path);
 
                 }
@@ -397,10 +406,29 @@ class StaffContoller {
                     $id = insert($keys,'notifications','?,?,?,?',$inserted);
                     if($id) {
                         unsetAllSession();
+                        $_SESSION['msg'] = "Kid Accepted successfuly";
                         $this->showAllKids();
                     }
                 }
             }
+        }
+    }
+
+    public function sendReminder($id) {
+        $advisor_id = $_SESSION['staff']['id'];
+        $data = [
+            'message'=>'Must be Add Payment for your kid',
+            'message_to'=>'parent',
+            'staff_id'=>$advisor_id,
+            'kid_id'=>$id
+        ];
+        $keys=join(',',array_keys($data));
+        $inserted=array_values($data);
+        $id = insert($keys,'notifications','?,?,?,?',$inserted);
+        if($id) {
+            unsetAllSession();
+            $_SESSION['msg'] = "Notification Send successfuly";
+            $this->showAllKids();
         }
     }
 
