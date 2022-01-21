@@ -37,7 +37,7 @@
               </div>
               <div>
                 <label class="label" for="ssn">Civil Id</label>
-                <input type="text" name="ssn" title="Enter CID" id="ssn" placeholder="Enter CID" required
+                <input type="text" name="ssn" title="Enter CID" id="ssn" maxlength="12" placeholder="Enter CID" required
                   value="<?php if(isset($_SESSION['errors'])) echo $ssn?>">
               </div>
               <div>
