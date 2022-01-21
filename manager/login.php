@@ -31,7 +31,7 @@
             </div>
             <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" title="Enter Password">
+                <input type="password" name="password" id="password" title="Enter Password" required>
             </div>
             <div>
             <label class="label" for="captcha">Enter Words in Picture</label>

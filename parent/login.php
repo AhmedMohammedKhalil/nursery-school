@@ -31,7 +31,7 @@
             </div>
             <div>
                 <label class="label" title="password" for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Enter Password">
+                <input type="password" name="password" id="password" placeholder="Enter Password" required>
             </div>
 
             <div>
