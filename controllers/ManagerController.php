@@ -101,6 +101,8 @@ class ManagerController {
                 
                 $_SESSION['manager'] = $manager;
                 $_SESSION['username'] = $manager['username'];
+                $_SESSION['msg'] = "Manager Login Successfuly";
+
                // header('location: ../');
                 header('location: ../manager/dashboard.php');
 
@@ -145,6 +147,8 @@ class ManagerController {
                 $success = update('password = ?','staff',array_values($data),'id = ?');
                 if($success) {
                     $_SESSION['manager']['password'] = $hashpassword;
+                    $_SESSION['msg'] = "Change Password Successfuly";
+
                     header('location: '.$this->Path);
                 }
 
@@ -198,6 +202,8 @@ class ManagerController {
                     $_SESSION['manager']['username'] = $username; 
                     $_SESSION['manager']['name'] = $name; 
                     $_SESSION['manager']['position'] = $position; 
+                    $_SESSION['msg'] = "Edit Profile Successfuly";
+
                     header('location: '.$this->Path);
 
                 }

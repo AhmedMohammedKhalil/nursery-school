@@ -8,6 +8,14 @@
         $news = $_SESSION['news'];
     }
 ?>
+<?php if(isset($_SESSION['msg'])) { ?>
+        <p style="color:black;background:#8bfa8b;padding:20px;margin:0">
+            <?php 
+                echo $_SESSION['msg'] ;
+                unset($_SESSION['msg']);
+            ?>
+        </p>
+<?php } ?>
 <div class="section news" id="news" style="min-height: 76.3vh;">
         <div style="text-align: center;    margin-bottom: 20px;">
             <a class="button" href="<?php echo $cont.'NewsController.php?method=addNew' ?>">Add News</a>
