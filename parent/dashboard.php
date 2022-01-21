@@ -5,6 +5,14 @@
 	include 'init.php';
     include $tmp.'header.php';
 ?>
+<?php if(isset($_SESSION['msg'])) { ?>
+        <p style="color:black;background:#8bfa8b;padding:20px;margin:0">
+            <?php 
+                echo $_SESSION['msg'] ;
+                unset($_SESSION['msg']);
+            ?>
+        </p>
+<?php } ?>
 <div class="section" id="kids" style="min-height: 76.3vh;">
         <div class="container">
           <h2 class="special-heading">Dashboard</h2>
