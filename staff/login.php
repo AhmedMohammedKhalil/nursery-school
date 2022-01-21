@@ -31,7 +31,7 @@
             </div>
             <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" title="Enter Password">
+                <input type="password" name="password" id="password" title="Enter Password" required>
             </div>
             <div>
                 <span>if don't have account <a href="<?php echo $cont.'StaffController.php?method=showRegister'?>">Make Register</a></span>

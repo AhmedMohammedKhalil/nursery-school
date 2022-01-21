@@ -49,7 +49,7 @@
             <li><a href="<?php echo $cont.'ParentController.php?method=showProfile'?>">Profile</a></li>
             <li><a href="<?php echo $cont.'ParentController.php?method=allKids'?>">All Kids</a></li>
             <li><a href="<?php echo $cont.'ParentController.php?method=showKidsAdvisors'?>">Kids Advisors </a></li>
-            <li><a href="<?php echo $cont.'ParentController.php?method=notifications'?>">Notifications</a></li>
+            <li><a href="<?php echo $cont.'ParentController.php?method=showNotifications'?>">Notifications</a></li>
             <li><a href="<?php echo $cont.'ParentController.php?method=logout'?>">Logout</a></li>
           </ul>
 		  <?php } ?>
@@ -58,7 +58,7 @@
         <ul>
             <li><a href="<?php echo $cont.'StaffController.php?method=showProfile'?>">Profile</a></li>
             <li><a href="<?php echo $cont.'StaffController.php?method=allKids'?>">All Kids</a></li>
-            <li><a href="<?php echo $cont.'StaffController.php?method=notifications'?>">Notifications</a></li>
+            <li><a href="<?php echo $cont.'StaffController.php?method=showNotifications'?>">Notifications</a></li>
             <li><a href="<?php echo $cont.'StaffController.php?method=logout'?>">Logout</a></li>
           </ul>
 		  <?php } ?>

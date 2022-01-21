@@ -35,14 +35,34 @@ if($method != "") {
         $staff->changePassword();
     }
 
-    if($method == 'allkids') {
+    if($method == 'allKids') {
         $staff->showAllKids();
     }
-    if($method == 'notifications') {
+    if($method == 'showKid') {
+        $id = $_GET['id'];
+        $staff->showKid($id);
+    }
+    if($method == 'showParent') {
+        $id = $_GET['id'];
+        $staff->showParent($id);
+    }
+    if($method == 'showStaff') {
+        $id = $_GET['id'];
+        $staff->showStaff($id);
+    }
+    if($method == 'showNotifications') {
         $staff->showNotifications();
     }
     if($method == 'showProfile') {
         $staff->showProfile();
+    }
+    if($method == 'showAcceptedKid') {
+        $id = $_GET['id'];
+        $staff->showAcceptedKid($id);
+    }
+
+    if($method == 'acceptedKid') {
+        $staff->acceptedKid();
     }
 
     if($method == 'logout') {
@@ -82,11 +102,15 @@ class StaffContoller {
                     array_push($error,"this Username not exist in Database");
                 } 
 
-                if (!empty($staff)) {
-                    if(! password_verify($password,$staff['password'])) {
-                        array_push($error,"this password is invalid");
+                if (!empty($staff) ) {
+                    if($staff['role'] == 'manager') {
+                        array_push($error,"please login from Manager, You are Manager");
+                    }
+                    else if(! password_verify($password,$staff['password'])) {
+                            array_push($error,"this password is invalid");
                     }
                 }
+
                 if(!empty($error))
                 {
                     $_SESSION['errors'] = $error;
@@ -159,7 +183,7 @@ class StaffContoller {
                 }
                 $inserted = array_values($data);
                 $keys = join(',',array_keys($data));
-                $id = insert($keys,'staff','?,?,?,?',$inserted);
+                $id = insert($keys,'staff','?,?,?,?,?',$inserted);
                 if(!empty($id)) {
                     $result = selectOne('*','staff','id = '.$id);
                     $_SESSION['staff'] = $result;
@@ -282,15 +306,89 @@ class StaffContoller {
     }
 
     public function showAllKids() {
-        
+        $staff_id = $_SESSION['staff']['id'];
+        if($_SESSION['staff']['role'] == 'staff') {
+            $select = 'p.name as parent_name , k.*';
+            $table = 'parent p, kids k';
+            $where = "p.id = k.parent_id and k.status = 'not accepted'";
+            $_SESSION['unaccepted-kids'] = selectAll($select,$table,$where);
+            $select = 'p.name as parent_name, k.* , s.name as staff_name';
+            $table = 'parent p, kids k , staff s';
+            $where = "p.id = k.parent_id and s.id = k.staff_id and k.status = 'accepted'";
+            $_SESSION['accepted-kids'] = selectAll($select,$table,$where);
+        } else {
+            $select = 'p.name as parent_name , k.*';
+            $table = 'parent p, kids k';
+            $where = "p.id = k.parent_id and k.status = 'accepted' and k.staff_id = {$staff_id}";
+            $_SESSION['all_kids'] = selectAll($select,$table,$where);
+        }
+        header('location: '.$this->Path.'all-kids.php');
     }
 
     public function showNotifications() {
-        
+        $staff_id = $_SESSION['staff']['id'];
+        $allnotifications = selectAll('k.status, n.*','notifications n , kids k',"k.id = n.kid_id and n.message_to = 'staff' and n.staff_id ={$staff_id}" ,'id DESC');
+        $_SESSION['notifications'] = $allnotifications;
+        header('location: '.$this->Path.'notifications.php');
     }
 
     public function showProfile() {
         header('location: '.$this->Path);
+    }
+
+    public function showKid($id) {
+        $_SESSION['kid'] = selectOne('*','kids','id ='.$id);
+        header('location: '.$this->Path.'kids-info.php');
+    }
+
+    public function showStaff($id) {
+        $_SESSION['staff_info'] = selectOne('*','staff','id ='.$id);
+        header('location: '.$this->Path.'staff-info.php');
+    }
+
+    public function showParent($id) {
+        $_SESSION['parent_info'] = selectOne('*','parent','id ='.$id);
+        $phone = selectOne('phone','parent_phone','parent_id ='.$id);
+        $_SESSION['parent_info']['phone'] = $phone['phone'];
+        header('location: '.$this->Path.'parent-info.php');
+    }
+
+
+    public function showAcceptedKid($id) {
+        $advisors = selectAll('*','staff',"role = 'advisor'");
+        if(!empty($advisors)) {
+            $_SESSION['advisors'] = $advisors;
+            $_SESSION['kid_id'] = $id;
+            header('location: '.$this->Path.'accepted-kid.php');
+        } else {
+            header('location: ../errors/staffError.php');
+        }
+    }
+
+    public function acceptedKid() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') { 
+            if(isset($_POST['accepted_kid'])) {
+                $kid_id = trim($_POST['id']);
+                $advisor_id = trim($_POST['advisor']);
+                $inserted = ['accepted',$advisor_id,$kid_id];
+                $success = update('status = ? , staff_id = ?','kids',$inserted,'id = ?');
+                if($success) {
+                    $data = [
+                        'message'=>'your Kid Accepted',
+                        'message_to'=>'parent',
+                        'staff_id'=>$advisor_id,
+                        'kid_id'=>$kid_id
+                    ];
+                    $keys=join(',',array_keys($data));
+                    $inserted=array_values($data);
+                    $id = insert($keys,'notifications','?,?,?,?',$inserted);
+                    if($id) {
+                        unsetAllSession();
+                        $this->showAllKids();
+                    }
+                }
+            }
+        }
     }
 
     public function logout(){

@@ -78,11 +78,15 @@ class ManagerController {
                     array_push($error,"this Username not exist in Database");
                 } 
 
-                if (!empty($manager)) {
-                    if(! password_verify($password,$manager['password'])) {
-                        array_push($error,"this password is invalid");
+                if (!empty($manager) ) {
+                    if($manager['role'] != 'manager') {
+                        array_push($error,"please login from Staff, You are Staff");
+                    }
+                    else if(! password_verify($password,$manager['password'])) {
+                            array_push($error,"this password is invalid");
                     }
                 }
+
                 if(!empty($error))
                 {
                     $_SESSION['oldData'] = $data;

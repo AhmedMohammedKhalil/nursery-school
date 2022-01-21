@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 16, 2022 at 12:02 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.0.14
+-- Generation Time: Jan 17, 2022 at 12:50 AM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -74,6 +74,13 @@ CREATE TABLE `kids` (
   `status` text NOT NULL DEFAULT 'not accepted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `kids`
+--
+
+INSERT INTO `kids` (`id`, `fname`, `lname`, `vaccination`, `class`, `birth_date`, `description`, `parent_id`, `staff_id`, `status`) VALUES
+(29, 'Martha', 'Mccray', 'Yes', 'Velit corporis sapie', '03-Feb-2002', 'Ea totam ipsum labo', 3, NULL, 'not accepted');
+
 -- --------------------------------------------------------
 
 --
@@ -108,6 +115,13 @@ CREATE TABLE `notifications` (
   `staff_id` int(11) NOT NULL,
   `kid_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `meesage_to`, `message`, `staff_id`, `kid_id`) VALUES
+(4, 'staff', 'New kids added', 1, 29);
 
 -- --------------------------------------------------------
 
@@ -239,8 +253,8 @@ ALTER TABLE `news`
 --
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `staff_id` (`staff_id`),
-  ADD KEY `kid_id` (`kid_id`);
+  ADD KEY `kid_id` (`kid_id`),
+  ADD KEY `staff_id` (`staff_id`);
 
 --
 -- Indexes for table `parent`
@@ -296,7 +310,7 @@ ALTER TABLE `evaluation`
 -- AUTO_INCREMENT for table `kids`
 --
 ALTER TABLE `kids`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `news`
@@ -308,7 +322,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `parent`
@@ -356,6 +370,13 @@ ALTER TABLE `evaluation`
 ALTER TABLE `kids`
   ADD CONSTRAINT `kids_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `parent` (`id`),
   ADD CONSTRAINT `kids_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`);
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`kid_id`) REFERENCES `kids` (`id`),
+  ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`);
 
 --
 -- Constraints for table `parent_phone`

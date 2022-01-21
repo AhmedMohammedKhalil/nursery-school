@@ -11,7 +11,7 @@
         <h2 class="special-heading">Parent Profile</h2>
         <div class="kids-info flex">
           <div>
-              <img style="width: 300px;height:300px;border-radius:50%" src="<?php echo $imgs.'parent.png' ?>" alt="">
+              <img style="width: 300px;height:300px;border-radius:50%" src="<?php echo $imgs.'parent.png' ?>" alt="parent photo">
           </div>
           <h3><?php echo $_SESSION['parent']['username'] ?></h3>
           <h3><?php echo $_SESSION['parent']['name'] ?></h3>

@@ -29,7 +29,7 @@
                 value="<?php if(isset($_SESSION['errors'])) echo $username?>">
             </div>
             <div>
-                <input type="password" name="password" id="password" placeholder="Enter Password">
+                <input type="password" name="password" id="password" placeholder="Enter Password" required>
             </div>
             <div>
                 <span>if don't have account <a href="<?php echo $cont.'ParentController.php?method=showRegister'?>">Make Register</a></span>

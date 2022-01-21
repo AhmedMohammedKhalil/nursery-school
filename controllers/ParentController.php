@@ -501,7 +501,7 @@ class ParentContoller {
                         
                             $data = [
                                 'message'=>'New kids added',
-                                'meesage_to'=>'staff',
+                                'message_to'=>'staff',
                                 'staff_id'=>$s['id'],
                                 'kid_id'=>$kid_id
                             ];

@@ -22,7 +22,7 @@ function selectAll($select,$table,$where = null , $order = null ) {
     if($where != null)
         $where = "WHERE ".$where;
     if($order != null)
-        $where = "ORDER BY ".$order;
+        $order = "ORDER BY ".$order;
     try {
         $statment = $con->prepare("SELECT $select FROM $table $where $order");
         $statment->execute();
@@ -94,4 +94,14 @@ function delete($table,$where,$data) {
         //header('location: ../../errors/Error.php');
     }
     return $success;
+}
+
+
+function unsetAllSession() {
+    $requiredSessionVar = array('staff','parent','manager','username');
+    foreach($_SESSION as $key => $value) {
+        if(!in_array($key, $requiredSessionVar)) {
+            unset($_SESSION[$key]);
+        }
+    }
 }
