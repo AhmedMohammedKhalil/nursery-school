@@ -79,6 +79,9 @@ if($method != "") {
     if($method == "dashboard") {
         $Parent->dashboard();
     }
+    if($method == "getNotifications") {
+        $Parent->showNotifications();
+    }
 
 }
 
@@ -396,7 +399,13 @@ class ParentContoller {
     
 
     public function showNotifications() {
-        
+        $parent_id=$_SESSION['parent']['id'];
+        $notifications= selectAll('notifications.*','notifications,parent,kids',"notifications.kid_id=kids.id AND
+        kids.parent_id =parent.id AND
+        notifications.message_to ='parent' AND
+        parent.id={$parent_id}");
+        $_SESSION['notifications']=$notifications;
+        header('location: ../parent/notifications.php');
     }
 
     public function showProfile() {

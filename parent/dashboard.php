@@ -11,11 +11,11 @@
           <div style="display:flex;justify-content:space-evenly;margin:30px">
             <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=allKids'?>">All Kids</a>
             <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=showKidsAdvisors'?>">All advisors</a>
-            <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=showKidsAdvisors'?>">All Evaluations</a>
+            <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=showKidsAdvisors'?>">Evaluations</a>
           </div>
 
           <div style="display:flex;justify-content:space-evenly;margin:30px">
-            <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=notifications'?>">All Notifications</a>
+            <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=getNotifications'?>">All Notifications</a>
             <a class="button btn-width" href="payment.html">All Payments</a>
             <a class="button btn-width" href="payment.html">Add Payments</a>
 
