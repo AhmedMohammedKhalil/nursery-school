@@ -8,7 +8,7 @@
 
 	<div class="section" id="accept-kid" style="min-height: 76.3vh;">
         <div class="container">
-          <h2 class="special-heading">Accepte Kid</h2>
+          <h2 class="special-heading">Accept Kid</h2>
           <form action="<?php echo $cont."StaffController.php?method=acceptedKid"?>" method="POST" class="form">
             <div style="display: flex;justify-content:center;flex-direction:column">
                 <input type="hidden" name='id' value="<?php echo $_SESSION['kid_id']?>">

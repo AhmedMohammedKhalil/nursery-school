@@ -69,6 +69,10 @@ if($method != "") {
         $staff->logout();
     }
 
+    if($method == 'dashboard') {
+        $staff->dashboard();
+    }
+
 }
 
 class StaffContoller {
