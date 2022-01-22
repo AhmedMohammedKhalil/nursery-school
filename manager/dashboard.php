@@ -20,14 +20,15 @@
           <div style="display:flex;justify-content:space-evenly;margin:30px">
             <a class="button" href="<?php echo $cont.'ManagerController.php?method=allPayments' ?>">All Payments</a>
             <a class="button" href="<?php echo $cont.'ManagerController.php?method=allKids' ?>">All Kids</a>
-            <a class="button" href="<?php echo $cont.'ManagerController.php?method=allStaff' ?>">All Staff</a>
-            <a class="button" href="#">Evaluation</a>
+            <a class="button" href="<?php echo $cont.'ManagerController.php?method=allStaff' ?>">All Staff</a> 
+            <a class="button" href="<?php echo $cont.'ManagerController.php?method=addevaluation' ?>">Evaluation</a>
           </div>
           <h2 class="special-heading">Control</h2>
           <div style="display:flex;justify-content:space-evenly;margin:30px">
             <a class="button" href="<?php echo $cont.'NewsController.php?method=showNews' ?>">All News</a>
             <a class="button" href="<?php echo $cont.'ServicesController.php?method=showServices' ?>">All Services</a>
-            <a class="button" href="<?php echo $cont.'ContactController.php?method=showContacts' ?>">All Contacts</a>
+            <a class="button" href="<?php echo $cont.'ContactController.php?method=showContacts' ?>">All Contacts</a>  
+
           </div>
         </div>
     </div>

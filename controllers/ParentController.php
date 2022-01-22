@@ -90,7 +90,9 @@ if($method != "") {
     }
     if($method == "showAllPayments") {
         $Parent->showAllPayments();
-
+    }
+    if($method == "addevaluation") {
+        $Parent->addevaluation();
     }
 }
 
@@ -727,5 +729,9 @@ class ParentContoller {
         header('location: ../parent/allpayments.php');
     }
 
+    public function addevaluation()
+    {
+        header('location: '.$this->Path.'addevaluate.php');
+    }
 
 }

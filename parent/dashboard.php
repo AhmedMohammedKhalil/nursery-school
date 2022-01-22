@@ -19,7 +19,7 @@
           <div style="display:flex;justify-content:space-evenly;margin:30px">
             <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=allKids'?>">All Kids</a>
             <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=showKidsAdvisors'?>">All advisors</a>
-            <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=showKidsAdvisors'?>">Evaluations</a>
+            <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=addevaluation'?>">Evaluations</a>
           </div>
 
           <div style="display:flex;justify-content:space-evenly;margin:30px">

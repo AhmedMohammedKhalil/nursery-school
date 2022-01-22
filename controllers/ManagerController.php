@@ -74,6 +74,9 @@ if($method != "") {
     if($method == 'logout') {
         $manager->logout();
     }
+    if($method == "addevaluation") {
+        $manager->addevaluation();
+    }
     
 
 }
@@ -265,8 +268,6 @@ class ManagerController {
         header('location: '.$this->Path.'allNews.php');
     }
 
-    
-
     public function showAllKids() {
         $select = 'p.name as parent_name , k.*';
         $table = 'parent p, kids k';
@@ -354,5 +355,11 @@ class ManagerController {
         unset($_SESSION['username']);
         header('location: ../');
 
+    }
+    public function addevaluation()
+    {
+        $advisors= selectAll('*','staff',"role='advisor'");
+        $_SESSION['getadvisors']=$advisors;
+        header('location: '.$this->Path.'addevaluation.php');
     }
 }
