@@ -74,8 +74,11 @@ if($method != "") {
     if($method == 'logout') {
         $manager->logout();
     }
-    if($method == "addevaluation") {
-        $manager->addevaluation();
+    if($method == "showAddEvaluation") {
+        $manager->showAddEvaluation();
+    }
+    if($method == "addEvaluate") {
+        $manager->addEvaluate();
     }
     
 
@@ -356,10 +359,93 @@ class ManagerController {
         header('location: ../');
 
     }
-    public function addevaluation()
+    public function showAddEvaluation()
     {
         $advisors= selectAll('*','staff',"role='advisor'");
         $_SESSION['getadvisors']=$advisors;
         header('location: '.$this->Path.'addevaluation.php');
     }
+
+    public function addEvaluate() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') { 
+            if(isset($_POST['manager-evaluation'])) { 
+                $advisor_id = trim($_POST['advisor_id']);
+                $manager_id = $_SESSION['manager']['id'];
+                $type = 'manager';
+                $ev = 0;
+                for($i = 1 ; $i< 8 ; $i++) {
+                    $ev +=  $_POST['ev-'.$i];
+                }
+                $result = $ev*100/28;
+                $evaluation = selectOne('*','evaluation',"evaluate_id = {$advisor_id} and type = '{$type}' and staff_id = {$manager_id}");
+                $flag = false;
+                if(!empty($evaluation)) {
+                    $id = $evaluation['id'];
+                    $data = [$result,$id];
+                    $success = update('result = ?','evaluation',$data,'id = ?');
+                    if($success)
+                        $flag = true;
+                } else {
+                    $data = [
+                        'result' => $ev,
+                        'type' => $type,
+                        'staff_id' => $manager_id,
+                        'evaluate_id' => $advisor_id
+                    ];
+                    $keys = join(',',array_keys($data));
+                    $values = array_values($data);
+                    $insert_id = insert($keys,'evaluation','?,?,?,?',$values);
+                    if($insert_id)
+                        $flag = true;
+                }
+
+                if($flag == true) {
+                    $ev_manager_count = selectOne('count(*) as count','evaluation',"type = '{$type}' evaluate_id = {$advisor_id}");
+                    $count_m = $ev_manager_count['count'];
+                    $m_avg = 0;
+                    if($count_m > 0) {
+                        $ev_manager = selectAll('*','evaluation',"type = '{$type}' evaluate_id = {$advisor_id}");
+                        $m_sum = 0;
+                        foreach($ev_manager as $ev_m) {
+                            $m_sum += $ev_m['result'];
+                        }
+                        $m_avg = $m_sum/$count_m;
+                    }
+
+                    $ev_parent_count = selectOne('count(*) as count','evaluation',"type = 'parent' evaluate_id = {$advisor_id}");
+                    $count_p = $ev_parent_count['count'];
+                    $p_avg = 0;
+                    if($count_p > 0) {
+                        $ev_parent = selectAll('*','evaluation',"type = 'parent' evaluate_id = {$advisor_id}");
+                        $p_sum = 0;
+                        foreach($ev_parent as $ev_p) {
+                            $p_sum += $ev_p['result'];
+                        }
+                        $p_avg = $p_sum/$count_p;
+                    }
+                    $avgResult = ( $m_avg + $p_avg ) / 2 ;
+                    if($avgResult >= 75) {
+                        $review = 'Excellent';
+                    } else if ($avgResult < 75 && $avgResult >= 50) {
+                        $review = 'Very Good';
+                    } else if ($avgResult < 50 && $avgResult >= 25) {
+                        $review = 'Good';
+                    } else  {
+                        $review = 'Bad';
+                    }
+                    $data = [$review,$advisor_id];
+                    $success = update('review = ?','staff',$data,'id = ?');
+                    if($success) {
+                        $_SESSION['msg'] = "Evaluation Done Successfuly";
+                        $_SESSION['allStaff'] = selectAll('*','staff',"role = 'staff'",'name ASC');
+                        $_SESSION['allAdvisor'] = selectAll('*','staff',"role = 'advisor'",'name ASC');
+                        header('location: '.$this->Path.'all-staff.php');
+                    }
+
+                }
+               
+            }
+        }
+    }
+
 }
