@@ -43,7 +43,7 @@
               <div>
                 <label class="label" for="phone">Phone</label>
                 <input type="text" title="Enter phone" name="phone" id="phone" placeholder="Enter phone" required
-                  value="<?php if(isset($_SESSION['errors'])) echo $phone?>">
+                  value="<?php if(isset($_SESSION['errors'])) echo $phone?>" pattern="[0-9]{8}" maxlength="8">
               </div>
               <div>
                 <label class="label" for="password">Password</label>

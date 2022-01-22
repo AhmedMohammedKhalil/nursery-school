@@ -33,11 +33,11 @@
                 value="<?php if(isset($_SESSION['errors'])) { echo $name ;} else { echo $_SESSION['parent']['name'];}?>">
             </div>
             <div>
-                <input type="text" name="phone" id="phone" placeholder="Enter phone" required
+                <input type="text" name="phone" id="phone" placeholder="Enter phone" required pattern="[0-9]{8}" maxlength="8"
                 value="<?php if(isset($_SESSION['errors'])) { echo $phone ; } else { echo $_SESSION['parent']['phone'];}?>">
             </div>
             <div>
-                <input type="text" name="ssn" id="ssn" placeholder="Enter ssn" required
+                <input type="text" name="ssn" id="ssn" placeholder="Enter ssn" required pattern="[0-9]{12}" maxlength="12"
                 value="<?php if(isset($_SESSION['errors'])) { echo $ssn ; } else { echo $_SESSION['parent']['ssn'];}?>">
             </div>
             <div>

@@ -46,10 +46,6 @@ if($method != "") {
     if($method == 'logout') {
         $Parent->logout();
     }
-    if($method == 'payForKid') {
-        $id = $_GET['id'];
-        $Parent->payForKid($id);
-    }
     if($method == 'addKid') {
         $Parent->addKid();
     }
@@ -82,7 +78,20 @@ if($method != "") {
     if($method == "getNotifications") {
         $Parent->showNotifications();
     }
+    if($method == 'addpayment') {
+        $id = $_GET['id'];
+        $Parent->addpayment($id);
+    }
+    if($method == 'addPaymentToAllKids') {   
+        $Parent->addPaymentToAllKids();
+    }
+    if($method == "storePayment") {
+        $Parent->storePayment();
+    }
+    if($method == "showAllPayments") {
+        $Parent->showAllPayments();
 
+    }
 }
 
 class ParentContoller {
@@ -293,6 +302,7 @@ class ParentContoller {
                 $success = update('password = ?','parent',array_values($data),'id = ?');
                 if($success) {
                     $_SESSION['parent']['password'] = $hashpassword;
+                    $_SESSION['msg'] = "Password chenged Successfully";
                     header('location: '.$this->Path);
                 }
 
@@ -382,6 +392,7 @@ class ParentContoller {
                         $_SESSION['parent']['name'] = $name;
                         $_SESSION['parent']['ssn'] = $ssn;
                         $_SESSION['parent']['address'] = $address;
+                        $_SESSION['msg'] = "Profile Updated Successfully";
                         header('location: '.$this->Path);
                     }
                 }
@@ -457,13 +468,8 @@ class ParentContoller {
         $_SESSION['staff_info']=$staff_info;
         header('location: ../parent/staffinfo.php');
     }
-    public function payForKid($id)
-    {
-        exit();
-    }
     public function addKid()
     {
-        
         header('location: ../parent/addkid.php');
     }
     public function storeKid()
@@ -535,6 +541,7 @@ class ParentContoller {
                             $inserted=array_values($data);
                             insertAll($keys,'notifications','?,?,?,?',$inserted);
                         }
+                        $_SESSION['msg'] = "Kid Added Successfully";
                         $this->showAllKids();
                     }
                 }
@@ -602,8 +609,7 @@ class ParentContoller {
                     $_SESSION['errors'] = $error;
                     header('location: ../parent/editkid.php');
                     exit();
-                }
-              
+                }                                              
                 $data = [
                     'fname'=>$fname,
                     'lname'=>$lname,
@@ -616,6 +622,7 @@ class ParentContoller {
                 $success = update('fname = ? , lname = ? , vaccination = ? , class = ?, birth_date = ? , description = ?','kids',array_values($data),'id = ?');
                 if($success) { 
                         unset($_SESSION['kid']);
+                        $_SESSION['msg'] = "Kid Updated Successfully";
                         $this->showAllKids();
                     }
                 
@@ -628,10 +635,97 @@ class ParentContoller {
         delete('notifications',"kid_id= ?",$data) ;
         delete('payments',"kids_id= ?",$data) ;
         delete('kids',"id= ?",$data) ;
+        $_SESSION['msg'] = "Kid Deleted Successfully";
         $this->showAllKids();
     }
 
     public function dashboard() {
         header('location: '.$this->Path.'dashboard.php');
     }
+
+    public function addpayment($id)
+    {
+        $_SESSION['kid_id']=$id;
+        header('location: '.$this->Path.'addpayment.php');
+    }
+
+    public function addPaymentToAllKids()
+    {
+        $parent_id=$_SESSION['parent']['id'];
+        $kids= selectAll('*','kids',"kids.parent_id={$parent_id}");
+        $_SESSION['kids']=$kids;
+        header('location: '.$this->Path.'addpaymentallkids.php');
+    }
+
+    public function storePayment()
+    {
+        $error=[];
+        if($_SERVER['REQUEST_METHOD'] == 'POST') { 
+            if(isset($_POST['store_payment'])) {
+                $description=trim($_POST['description']);
+                $amount=trim($_POST['amount']);
+                $kid_id = trim($_POST['kid_id']);
+                $data = [
+                    'description'=>$description,
+                    'amount'=>$amount,
+                    'kids_id'=>$kid_id,
+                ];
+                $_SESSION['oldData'] = $data;
+                $error=[];
+                if (empty($description)) {
+                    array_push($error,"description required");
+                } 
+                if (empty($amount)) {
+                    array_push($error,"amount required");
+                } 
+                if (empty($amount) || !is_numeric($amount)) {
+                    if(empty($amount))
+                    {
+                        array_push($error,"amount required");
+                    }
+                    else if(!is_numeric($amount)){ 
+                        array_push($error,"amount contains numbers only");
+                    }
+                }
+                if (empty($kid_id)) {
+                    array_push($error,"kid required");
+                } 
+                if(!empty($error))
+                {
+                    $_SESSION['errors'] = $error;
+                    header('location: ../parent/addpayment.php');
+                    exit();
+                }
+                $keys=join(',',array_keys($data));
+                $inserted=array_values($data);
+                    $payment_id = insert($keys,'payments','?,?,?',$inserted);
+                    if($payment_id) 
+                    {   
+                        $kid= selectOne('*','kids',"id={$kid_id}");
+                            $data = [
+                                'message'=>'Payment Done successfuly',
+                                'message_to'=>'staff',
+                                'staff_id'=>$kid['staff_id'],
+                                'kid_id'=>$kid_id
+                            ];
+                            $keys=join(',',array_keys($data));
+                            $inserted=array_values($data);
+                            insertAll($keys,'notifications','?,?,?,?',$inserted);
+                        $_SESSION['msg'] = "Payment Done Successfully";
+                        $this->showAllPayments();
+                    }
+                    }
+            }
+    }
+
+
+    public function showAllPayments()
+    {
+        $parent_id=$_SESSION['parent']['id'];
+        $payments= selectAll('payments.*,kids.id AS k_id,kids.fname,kids.lname','payments,parent,kids',"kids.parent_id=parent.id AND payments.kids_id =kids.id AND parent.id={$parent_id}");
+        $_SESSION['allpayments']=$payments;
+        header('location: ../parent/allpayments.php');
+    }
+
+
 }

@@ -35,7 +35,7 @@
               <td><?php echo $k['status'] ?></td>
               <td>
                 <div class="flex" style="flex-direction: row;margin: 0;justify-content:space-evenly">
-                  <a href="<?php echo $cont.'ParentController.php?method=payForKid&id='.$k['id'] ?>">Pay</a>
+                  <a href="<?php echo $cont.'ParentController.php?method=addpayment&id='.$k['id'] ?>">Pay</a>
                   <a href="<?php echo $cont.'ParentController.php?method=editKid&id='.$k['id']?>">edit</a>
                   <a href="<?php echo $cont.'ParentController.php?method=deleteKid&id='.$k['id']?>">delete</a>
                 </div>

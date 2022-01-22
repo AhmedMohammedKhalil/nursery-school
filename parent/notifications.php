@@ -34,8 +34,8 @@
                                     <?php echo $n['message']?>
                                 </p>
                                 <div>
-                                    <a class="button" href="<?php echo $cont.'StaffController.php?method=showKid&id='.$n['kid_id'] ?>">kid info</a>
-                                    <a class="button" href="<?php echo $cont.'StaffController.php?method=addpayment&id='.$n['kid_id'] ?>">Add Payment</a>
+                                    <a class="button" href="<?php echo $cont.'ParentController.php?method=showKid&id='.$n['kid_id'] ?>">kid info</a>
+                                    <a class="button" href="<?php echo $cont.'ParentController.php?method=addpayment&id='.$n['kid_id'] ?>">Add Payment</a>
                                 </div>
                             </div>
                         <?php } ?>
