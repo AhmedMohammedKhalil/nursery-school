@@ -66,6 +66,7 @@ class NewsController {
                 $keys = join(',',array_keys($data));
                 $id = insert($keys,'news','?,?',$inserted);
                 if(!empty($id)) {
+                    $_SESSION['msg'] = "New Added Successfuly";
                     $this->showNews();
                 }
             }
@@ -106,6 +107,8 @@ class NewsController {
                 $success = update('title = ?,content = ?','news',$inserted,'id = ?');
                 if($success) {
                     unset($_SESSION['new']);
+                    $_SESSION['msg'] = "New Updated Successfuly";
+
                     $this->showNews();
                 }
             }
@@ -116,6 +119,7 @@ class NewsController {
         $data = [$id];
         $success = delete('news','id = ?',$data);
         if($success) {
+            $_SESSION['msg'] = "New Deleted Successfuly";
             $this->showNews();
         }
     }

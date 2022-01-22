@@ -16,6 +16,6 @@
 
         <?php } ?>
 
-        <div class="footer">&copy; 2021 <span>Nursery School</span> All Right Reserved</div>
+        <div class="footer">&copy; 2022 <span>Nursery School</span> All Right Reserved</div>
     </body>
 </html>

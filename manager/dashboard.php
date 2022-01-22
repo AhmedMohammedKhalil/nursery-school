@@ -6,13 +6,21 @@
 	include $tmp.'header.php';
   
 ?>
+  <?php if(isset($_SESSION['msg'])) { ?>
+        <p style="color:black;background:#8bfa8b;padding:20px;margin:0">
+            <?php 
+                echo $_SESSION['msg'] ;
+                unset($_SESSION['msg']);
+            ?>
+        </p>
+  <?php } ?>
 	<div class="section" id="kids">
         <div class="container">
           <h2 class="special-heading">Dashboard</h2>
           <div style="display:flex;justify-content:space-evenly;margin:30px">
-            <a class="button" href="allpayments.html">All Payments</a>
-            <a class="button" href="allkids.html">All Kids</a>
-            <a class="button" href="allstaff.html">All Staff</a>
+            <a class="button" href="<?php echo $cont.'ManagerController.php?method=allPayments' ?>">All Payments</a>
+            <a class="button" href="<?php echo $cont.'ManagerController.php?method=allKids' ?>">All Kids</a>
+            <a class="button" href="<?php echo $cont.'ManagerController.php?method=allStaff' ?>">All Staff</a>
             <a class="button" href="#">Evaluation</a>
           </div>
           <h2 class="special-heading">Control</h2>

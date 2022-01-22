@@ -6,8 +6,7 @@
 </head>
 <body>
     <div>
-        <h4>Found Error in Database During Make Command on Server</h4>
-        <h4>Check your Command Please....</h4>
+        <h4>Cannot delete Advisor because Related with kids</h4>
         <a href="../">Go to Home</a>
     </div>
 </body>

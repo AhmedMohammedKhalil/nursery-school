@@ -68,6 +68,8 @@ class ContactController {
                 $keys = join(',',array_keys($data));
                 $id = insert($keys,'contacts','?,?',$inserted);
                 if(!empty($id)) {
+                    $_SESSION['msg'] = "Contact Added Successfuly";
+
                     $this->showContacts();
                 }
             }
@@ -108,6 +110,7 @@ class ContactController {
                 $success = update('contact = ? , type = ? ','contacts',$inserted,'id = ?');
                 if($success) {
                     unset($_SESSION['contact']);
+                    $_SESSION['msg'] = "Contact Updated Successfuly";
                     $this->showContacts();
                 }
             }
@@ -118,6 +121,7 @@ class ContactController {
         $data = [$id];
         $success = delete('contacts','id = ?',$data);
         if($success) {
+            $_SESSION['msg'] = "Contact Deleted Successfuly";
             $this->showContacts();
         }
     }

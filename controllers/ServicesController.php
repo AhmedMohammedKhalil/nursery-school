@@ -64,6 +64,8 @@ class ServicesController {
                 $keys = join(',',array_keys($data));
                 $id = insert($keys,'services','?,?',$inserted);
                 if(!empty($id)) {
+                    $_SESSION['msg'] = "Service Added Successfuly";
+
                     $this->showServices();
                 }
             }
@@ -102,6 +104,7 @@ class ServicesController {
                 $success = update('title = ?,body = ?','services',$inserted,'id = ?');
                 if($success) {
                     unset($_SESSION['service']);
+                    $_SESSION['msg'] = "Service Updated Successfuly";
                     $this->showServices();
                 }
             }
@@ -111,6 +114,7 @@ class ServicesController {
         $data = [$id];
         $success = delete('services','id = ?',$data);
         if($success) {
+            $_SESSION['msg'] = "Service Deleted Successfuly";
             $this->showServices();
         }
     }
