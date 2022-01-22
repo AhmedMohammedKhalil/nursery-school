@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <?php } 
-					if(empty($service)) {
+					if(empty($services)) {
 						echo"<h3>Not Found Services</h3>";
 					}
 				?>

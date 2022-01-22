@@ -40,7 +40,37 @@ if($method != "") {
         $manager->showNews();
     }
     
-   
+    if($method == 'allKids') {
+        $manager->showAllKids();
+    }
+    if($method == 'showKid') {
+        $id = $_GET['id'];
+        $manager->showKid($id);
+    }
+    if($method == 'showParent') {
+        $id = $_GET['id'];
+        $manager->showParent($id);
+    }
+    if($method == 'showStaff') {
+        $id = $_GET['id'];
+        $manager->showStaff($id);
+    }
+    if($method == "allPayments") {
+        $manager->showAllPayments();
+    }
+    if($method == "allStaff") {
+        $manager->showAllStaff();
+    }
+    if($method == "sortAdvisor") {
+        $manager->sortAdvisor();
+    }
+    if($method == "sortStaff") {
+        $manager->sortStaff();
+    }
+    if($method == "delStaff") {
+        $id = $_GET['id'];
+        $manager->delStaff($id);
+    }
     if($method == 'logout') {
         $manager->logout();
     }
@@ -237,9 +267,88 @@ class ManagerController {
 
     
 
-   
+    public function showAllKids() {
+        $select = 'p.name as parent_name , k.*';
+        $table = 'parent p, kids k';
+        $where = "p.id = k.parent_id and k.status = 'not accepted'";
+        $_SESSION['unaccepted-kids'] = selectAll($select,$table,$where);
+        $select = 'p.name as parent_name, k.* , s.name as staff_name';
+        $table = 'parent p, kids k , staff s';
+        $where = "p.id = k.parent_id and s.id = k.staff_id and k.status = 'accepted'";
+        $_SESSION['accepted-kids'] = selectAll($select,$table,$where);
+        header('location: '.$this->Path.'all-kids.php');
+    }
 
 
+    public function showKid($id) {
+        $_SESSION['kid'] = selectOne('*','kids','id ='.$id);
+        header('location: '.$this->Path.'kids-info.php');
+    }
+
+    public function showStaff($id) {
+        $_SESSION['staff_info'] = selectOne('*','staff','id ='.$id);
+        header('location: '.$this->Path.'staff-info.php');
+    }
+
+    public function showParent($id) {
+        $_SESSION['parent_info'] = selectOne('*','parent','id ='.$id);
+        $phone = selectOne('phone','parent_phone','parent_id ='.$id);
+        $_SESSION['parent_info']['phone'] = $phone['phone'];
+        header('location: '.$this->Path.'parent-info.php');
+    }
+
+    public function showAllPayments() {
+        $select = 'k.fname , k.lname , k.id as k_id , p.*';
+        $table = 'payments p, kids k';
+        $where = "k.id = p.kids_id ";
+        $_SESSION['payments'] = selectAll($select,$table,$where);
+        header('location: '.$this->Path.'all-payments.php');
+
+    }
+
+    public function showAllStaff() {
+        $_SESSION['allStaff'] = selectAll('*','staff',"role = 'staff'",'name ASC');
+        $_SESSION['allAdvisor'] = selectAll('*','staff',"role = 'advisor'",'name ASC');
+        header('location: '.$this->Path.'all-staff.php');
+    }
+    public function sortAdvisor() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') { 
+            if(isset($_POST['sortAdvisor'])) { 
+                $sort = trim($_POST['advisor-sort']) == 1 ? 'ASC' : 'DESC';
+                $_SESSION['allAdvisor'] = selectAll('*','staff',"role = 'advisor'",'name '.$sort);
+                header('location: '.$this->Path.'all-staff.php');
+            }
+        }
+       
+    }
+    public function sortStaff() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') { 
+            if(isset($_POST['sortStaff'])) { 
+                $sort = trim($_POST['staff-sort']) == 1 ? 'ASC' : 'DESC';
+                $_SESSION['allStaff'] = selectAll('*','staff',"role = 'staff'",'name '.$sort);
+                header('location: '.$this->Path.'all-staff.php');
+            }
+        }
+       
+    }
+    public function delStaff($id) {
+        $staff = selectOne('*','staff','id ='.$id);
+        if($staff['role'] == "advisor") {
+            $kids = selectAll('*','kids','staff_id ='.$id);
+            if(!empty($kids)) {
+                header('location: ../errors/advisorError.php');
+                exit();
+            }
+        }
+        $data = [$id];
+        $success = delete('staff','id = ?',$data);
+        if($success) {
+            $_SESSION['msg'] = "Staff Deleted Successfuly";
+            $_SESSION['allStaff'] = selectAll('*','staff',"role = 'staff'",'name ASC');
+            $_SESSION['allAdvisor'] = selectAll('*','staff',"role = 'advisor'",'name ASC');
+            header('location: '.$this->Path.'all-staff.php');
+        }
+    }
     public function logout(){
         unset($_SESSION['manager']);
         unset($_SESSION['username']);
