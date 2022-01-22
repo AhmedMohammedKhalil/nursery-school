@@ -33,7 +33,7 @@ $advisors=$_SESSION['getadvisors'];
 
                 <div style="margin: 30px 0;">
                     <label style="display:inline-block;margin-bottom: 10px;">Advisor’s Speaking Style & Body lang :</label>
-                    <div style="display: flex;">
+                    <div style="display: flex;align-items:center">
                         <input type="radio" name="relation" id="re-ex" value="excellent" style="margin-bottom:0;" checked> <label for="re-ex">Excellent</label> 
                         <input type="radio" name="relation" id="re-ve" value="very" style="margin-bottom:0;"> <label for="re-ex">Very</label>
                         <input type="radio" name="relation" id="re-go" value="good" style="margin-bottom:0;"> <label for="re-go">Good</label>

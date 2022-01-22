@@ -94,6 +94,9 @@ if($method != "") {
     if($method == "addevaluation") {
         $Parent->addevaluation();
     }
+    if($method == "storeEvaluation") {
+        $Parent->storeEvaluation();
+    }
 }
 
 class ParentContoller {
@@ -441,7 +444,8 @@ class ParentContoller {
         $_SESSION['allkids']=$kids;
         header('location: ../parent/allkids.php');
     }
-    public function showKidsAdvisors() {
+    public function showKidsAdvisors()
+    {
         $parent_id=$_SESSION['parent']['id'];
         $kids= selectAll('kids.*,staff.name AS staff_name','kids,staff,parent',"kids.staff_id =staff.id AND kids.parent_id=parent.id AND parent.id={$parent_id}");
         $_SESSION['kids_advisors']=$kids;
@@ -731,7 +735,73 @@ class ParentContoller {
 
     public function addevaluation()
     {
+        $parent_id=$_SESSION['parent']['id'];
+        $advisors= selectAll('DISTINCT staff.*','kids,staff,parent',"kids.staff_id =staff.id AND kids.parent_id=parent.id AND parent.id={$parent_id}");
+        $_SESSION['advisors']=$advisors;
         header('location: '.$this->Path.'addevaluate.php');
     }
+    public function storeEvaluation()
+    {
+        $evaluation=selectAll('*','evaluation',"evaluate_id={$_POST['advisor_id']}");
+        if(!isset($evaluation)) {
+            if(isset($_POST['Evaluate'])) 
+            {
+                $ev1=$_POST['ev-1'];
+                $ev2=$_POST['ev-2'];
+                $ev3=$_POST['ev-3'];
+                $ev4=$_POST['ev-4'];
+                $ev5=$_POST['ev-5'];
+                $ev6=$_POST['ev-6'];
+                $result=(($ev1+$ev2+$ev3+$ev4+$ev5+$ev6)*100)/24;
+                $advisor_id=$_POST['advisor_id'];
+                $data = [
+                    'type'=>"parent",
+                    'evaluate_id'=>$advisor_id,
+                    'result'=>$result,
+                ];
+                $keys=join(',',array_keys($data));
+                $inserted=array_values($data);
+                    $evaluation_id = insert($keys,'	evaluation','?,?,?',$inserted);
+                    if($evaluation_id) 
+                    {   
+                        $managers=selectAll('result,COUNT(*) AS counter','evaluation',"type='manager' AND evaluate_id={$advisor_id}");
+                        $parents=selectAll('result,COUNT(*) AS counter','evaluation',"type='parent' AND evaluate_id={$advisor_id}");
 
+                        if(isset($managers)){
+                            $sum=0;
+                            foreach ($managers as $m) {
+                                $sum+=$m['result'];
+                                $count=$m['counter'];
+                            }
+                            $managers_review=$sum/$count;
+                        }
+                        if(isset($parents)){
+                            $sum=0;
+                            foreach ($parents as $p) {
+                                $sum+=$p['result'];
+                                $count=$p['counter'];
+                            }
+                            $parents_review=$sum/$count;
+                        }
+
+                        $final_review=($managers_review+$parents_review)/2;
+                        if(isset($final_review))
+                        {
+                            $data = [
+                                'review'=>$final_review,
+                                'id'=>$advisor_id
+                            ];
+                            $success = update('review = ?','staff',array_values($data),'id = ?');
+                        }
+
+                    }
+            }
+        }
+        else{
+
+        }
+
+    }
 }
+
+
