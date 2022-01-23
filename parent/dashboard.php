@@ -25,7 +25,7 @@
           <div style="display:flex;justify-content:space-evenly;margin:30px">
             <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=getNotifications'?>">All Notifications</a>
             <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=showAllPayments'?>">All Payments</a>
-            <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=addpayment'?>">Add Payments</a>
+            <a class="button btn-width" href="<?php echo $cont.'ParentController.php?method=addPaymentToAllKids'?>">Add Payments</a>
 
           </div>
         </div>

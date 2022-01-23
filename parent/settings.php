@@ -25,23 +25,31 @@
           ?>
           <div style="display: flex;justify-content:center;flex-direction:column">
             <div>
-                <input type="text" name="username" id="username" placeholder="Enter Username" required
+                <label class="label" for="username">User Name</label>
+                <input type="text" name="username"  title="Enter Username"  id="username" placeholder="Enter Username" required
                 value="<?php if(isset($_SESSION['errors'])){ echo $username; } else { echo $_SESSION['parent']['username'];}?>">
             </div>
             <div>
-                <input type="text" name="name" id="name" placeholder="Enter name" required
+                <label class="label" for="name">Name</label>
+                <input type="text" name="name" title="Enter name"  id="name" placeholder="Enter name" required
                 value="<?php if(isset($_SESSION['errors'])) { echo $name ;} else { echo $_SESSION['parent']['name'];}?>">
             </div>
+            <div class="civil_id">
+                <label class="label" for="civil_id">Civil Id</label>
+                <input type="text" name="ssn" title="Enter CID" id="civil_id" placeholder="Enter Civil ID" required pattern="[0-9]{12}" maxlength="12"
+                value="<?php if(isset($_SESSION['errors'])) { echo $ssn ; } else { echo $_SESSION['parent']['ssn'];}?>">
+                <span><img src="<?php echo $imgs.'CID.png'?>"/><br/>
+                  Civil ID NO
+                </span>
+            </div>
             <div>
-                <input type="text" name="phone" id="phone" placeholder="Enter phone" required pattern="[0-9]{8}" maxlength="8"
+                <label class="label" for="phone">Phone</label>
+                <input type="text" name="phone" id="phone" title="Enter phone"  placeholder="Enter phone" required pattern="[0-9]{8}" maxlength="8"
                 value="<?php if(isset($_SESSION['errors'])) { echo $phone ; } else { echo $_SESSION['parent']['phone'];}?>">
             </div>
             <div>
-                <input type="text" name="ssn" id="ssn" placeholder="Enter ssn" required pattern="[0-9]{12}" maxlength="12"
-                value="<?php if(isset($_SESSION['errors'])) { echo $ssn ; } else { echo $_SESSION['parent']['ssn'];}?>">
-            </div>
-            <div>
-                <textarea name="address" id="address" rows="6" placeholder="Enter address" required><?php if(isset($_SESSION['errors'])) { echo $address ; } else { echo $_SESSION['parent']['address'];}?></textarea>
+              <label class="label" for="address">Address</label>
+                <textarea name="address" id="address" title="Enter address" rows="6" placeholder="Enter address" required><?php if(isset($_SESSION['errors'])) { echo $address ; } else { echo $_SESSION['parent']['address'];}?></textarea>
             </div>
             <div>
                 <input type="submit" name="edit_profile" value="Save Changes">

@@ -22,12 +22,13 @@
             }
           ?>
           <div style="display: flex;justify-content:center;flex-direction:column">
-            
             <div>
-                <input type="password" name="password" id="password" placeholder="Enter Password" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" title="Enter Password" required>
             </div>
             <div>
-                <input type="password" name="confirm_password" id="confirm_password" placeholder="Enter Password again" required>
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_password" id="confirm_password" title="Enter Password again" required>
             </div>
             <div>
               <input type="submit" name="change_password" value="Change Password">

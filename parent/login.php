@@ -40,11 +40,6 @@
                     <input class="input" type="text" name="captcha" id="captcha" required title="Enter Captcha" placeholder="Enter captcha"  style="flex:1 ;margin:0 10px 0 0">
                     <img src="<?php echo $func.'captcha.php'?>" alt="captcha image">
                   </div>
-                  <?php if(isset($_GET['error'])&& isset($captcha_error) && !empty($captcha_error))
-                  {
-                      echo "<span style='color:red'>{$captcha_error}</span>";
-                  } 
-                  ?>
             </div>
 
             <div>

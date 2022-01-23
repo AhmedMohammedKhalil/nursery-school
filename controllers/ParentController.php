@@ -149,7 +149,6 @@ class ParentContoller {
                 $_SESSION['parent'] = $parent;
                 $_SESSION['parent']['phone'] = $result['phone'];
                 $_SESSION['username'] = $parent['username'];
-             //   header('location: ../');
                 $_SESSION['msg'] = "Parent Login Successfuly";
                 $this->dashboard();
             }
@@ -702,26 +701,30 @@ class ParentContoller {
                     header('location: ../parent/addpayment.php');
                     exit();
                 }
+                $kid= selectOne('*','kids',"id={$kid_id}");
+                if($kid['status'] != 'accepted') {
+                    header('location: ../errors/approvedError.php');
+                    exit();
+                }
                 $keys=join(',',array_keys($data));
                 $inserted=array_values($data);
-                    $payment_id = insert($keys,'payments','?,?,?',$inserted);
-                    if($payment_id) 
-                    {   
-                        $kid= selectOne('*','kids',"id={$kid_id}");
-                            $data = [
-                                'message'=>'Payment Done successfuly',
-                                'message_to'=>'staff',
-                                'staff_id'=>$kid['staff_id'],
-                                'kid_id'=>$kid_id
-                            ];
-                            $keys=join(',',array_keys($data));
-                            $inserted=array_values($data);
-                            insertAll($keys,'notifications','?,?,?,?',$inserted);
-                        $_SESSION['msg'] = "Payment Done Successfully";
-                        $this->showAllPayments();
-                    }
-                    }
+                $payment_id = insert($keys,'payments','?,?,?',$inserted);
+                if($payment_id) 
+                {   
+                        $data = [
+                            'message'=>'Payment Done successfuly',
+                            'message_to'=>'staff',
+                            'staff_id'=>$kid['staff_id'],
+                            'kid_id'=>$kid_id
+                        ];
+                        $keys=join(',',array_keys($data));
+                        $inserted=array_values($data);
+                        insertAll($keys,'notifications','?,?,?,?',$inserted);
+                    $_SESSION['msg'] = "Payment Done Successfully";
+                    $this->showAllPayments();
+                }
             }
+        }
     }
 
 
