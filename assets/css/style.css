@@ -560,3 +560,27 @@ body {
 .btn-width {
   width:167.05px;
 }
+
+/*civi id hover*/
+.civil_id {
+  position: relative;
+}
+#civil_id:hover + span {
+  left: 2%; 
+  background: #ffffff;
+} 
+#civil_id + span {
+  position: absolute; 
+  left: -9999px; 
+  top:50px;
+  margin: 4px 0 0 0px; 
+  padding: 3px 3px 3px 3px; 
+  border-style:solid;
+  border-color:black;
+  border-width:1px;
+}
+#civil_id:hover + span {
+  margin: 20px 0 0 150px;
+  background: #ffffff; 
+  z-index:1000;
+}

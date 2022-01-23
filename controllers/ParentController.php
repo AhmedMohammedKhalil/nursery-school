@@ -762,7 +762,7 @@ class ParentContoller {
                         $flag = true;
                 } else {
                     $data = [
-                        'result' => $ev,
+                        'result' => $result,
                         'type' => $type,
                         'parent_id' => $parent_id,
                         'evaluate_id' => $advisor_id
@@ -775,35 +775,35 @@ class ParentContoller {
                 }
 
                 if($flag == true) {
-                    $ev_manager_count = selectOne('count(*) as count','evaluation',"type = 'manager' evaluate_id = {$advisor_id}");
+                    $ev_manager_count = selectOne('count(*) as count','evaluation',"type = 'manager' and evaluate_id = {$advisor_id}");
                     $count_m = $ev_manager_count['count'];
                     $m_avg = 0;
                     if($count_m > 0) {
-                        $ev_manager = selectAll('*','evaluation',"type = 'manager' evaluate_id = {$advisor_id}");
+                        $ev_manager = selectAll('*','evaluation',"type = 'manager' and evaluate_id = {$advisor_id}");
                         $m_sum = 0;
                         foreach($ev_manager as $ev_m) {
-                            $m_sum += $ev_m['result'];
+                            $m_sum += (int) $ev_m['result'];
                         }
                         $m_avg = $m_sum/$count_m;
                     }
 
-                    $ev_parent_count = selectOne('count(*) as count','evaluation',"type = 'parent' evaluate_id = {$advisor_id}");
+                    $ev_parent_count = selectOne('count(*) as count','evaluation',"type = 'parent' and evaluate_id = {$advisor_id}");
                     $count_p = $ev_parent_count['count'];
                     $p_avg = 0;
                     if($count_p > 0) {
-                        $ev_parent = selectAll('*','evaluation',"type = 'parent' evaluate_id = {$advisor_id}");
+                        $ev_parent = selectAll('*','evaluation',"type = 'parent' and evaluate_id = {$advisor_id}");
                         $p_sum = 0;
                         foreach($ev_parent as $ev_p) {
-                            $p_sum += $ev_p['result'];
+                            $p_sum += (int) $ev_p['result'];
                         }
                         $p_avg = $p_sum/$count_p;
                     }
                     $avgResult = ( $m_avg + $p_avg ) / 2 ;
-                    if($avgResult >= 75) {
+                    if($avgResult >= 90) {
                         $review = 'Excellent';
-                    } else if ($avgResult < 75 && $avgResult >= 50) {
+                    } else if ($avgResult < 90 && $avgResult >= 60) {
                         $review = 'Very Good';
-                    } else if ($avgResult < 50 && $avgResult >= 25) {
+                    } else if ($avgResult < 60 && $avgResult >= 30) {
                         $review = 'Good';
                     } else  {
                         $review = 'Bad';

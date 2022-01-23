@@ -35,10 +35,13 @@
                 <input type="text" title="Enter name" name="name" id="name" placeholder="Enter name" required
                 value="<?php if(isset($_SESSION['errors'])) echo $name?>">
               </div>
-              <div>
-                <label class="label" for="ssn">Civil Id</label>
-                <input type="text" name="ssn" title="Enter CID" id="ssn" maxlength="12" placeholder="Enter CID" required
+              <div class="civil_id">
+                <label class="label" for="civil_id">Civil Id</label>
+                <input type="text" name="ssn" title="Enter CID" id="civil_id" maxlength="12" placeholder="Enter CID" required
                   value="<?php if(isset($_SESSION['errors'])) echo $ssn?>">
+                  <span><img src="<?php echo $imgs.'CID.png'?>"/><br/>
+                  Civil ID NO
+                  </span>
               </div>
               <div>
                 <label class="label" for="phone">Phone</label>

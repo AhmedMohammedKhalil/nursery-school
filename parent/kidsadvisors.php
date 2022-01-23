@@ -23,17 +23,12 @@
                 <th>Staff Name</th>
                 <th>Kid Name</th>
                 <th>class</th>
-                <th>Control</th>
             </tr>
             <?php foreach ($kids as $k) {?>
             <tr>
                 <td><a href="<?php echo $cont.'ParentController.php?method=showStaff&id='.$k['staff_id'] ?>"><?php echo $k['staff_name'] ?></a></td>
                 <td><a href="<?php echo $cont.'ParentController.php?method=showKid&id='.$k['id'] ?>"><?php echo $k['fname'].' '.$k['lname'] ?></a></td>
                 <td><?php echo $k['class'] ?></td>
-                <td>
-                <div class="flex" style="flex-direction: row;margin: 0;justify-content:space-evenly">
-                  <a href="<?php echo $cont.'ParentController.php?method=payForKid&id='.$k['id'] ?>">Make Evaluation for Advisor</a>
-                </div>
               </td>
             </tr>
             <?php }
