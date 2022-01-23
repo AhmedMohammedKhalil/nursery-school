@@ -740,67 +740,84 @@ class ParentContoller {
         $_SESSION['advisors']=$advisors;
         header('location: '.$this->Path.'addevaluate.php');
     }
-    public function storeEvaluation()
-    {
-        $evaluation=selectAll('*','evaluation',"evaluate_id={$_POST['advisor_id']}");
-        if(!isset($evaluation)) {
-            if(isset($_POST['Evaluate'])) 
-            {
-                $ev1=$_POST['ev-1'];
-                $ev2=$_POST['ev-2'];
-                $ev3=$_POST['ev-3'];
-                $ev4=$_POST['ev-4'];
-                $ev5=$_POST['ev-5'];
-                $ev6=$_POST['ev-6'];
-                $result=(($ev1+$ev2+$ev3+$ev4+$ev5+$ev6)*100)/24;
-                $advisor_id=$_POST['advisor_id'];
-                $data = [
-                    'type'=>"parent",
-                    'evaluate_id'=>$advisor_id,
-                    'result'=>$result,
-                ];
-                $keys=join(',',array_keys($data));
-                $inserted=array_values($data);
-                    $evaluation_id = insert($keys,'	evaluation','?,?,?',$inserted);
-                    if($evaluation_id) 
-                    {   
-                        $managers=selectAll('result,COUNT(*) AS counter','evaluation',"type='manager' AND evaluate_id={$advisor_id}");
-                        $parents=selectAll('result,COUNT(*) AS counter','evaluation',"type='parent' AND evaluate_id={$advisor_id}");
+   
+    public function storeEvaluation() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') { 
+            if(isset($_POST['parent-evaluate'])) { 
+                $advisor_id = trim($_POST['advisor_id']);
+                $parent_id = $_SESSION['parent']['id'];
+                $type = 'parent';
+                $ev = 0;
+                for($i = 1 ; $i< 7 ; $i++) {
+                    $ev +=  $_POST['ev-'.$i];
+                }
+                $result = $ev*100/24;
+                $evaluation = selectOne('*','evaluation',"evaluate_id = {$advisor_id} and type = '{$type}' and parent_id = {$parent_id}");
+                $flag = false;
+                if(!empty($evaluation)) {
+                    $id = $evaluation['id'];
+                    $data = [$result,$id];
+                    $success = update('result = ?','evaluation',$data,'id = ?');
+                    if($success)
+                        $flag = true;
+                } else {
+                    $data = [
+                        'result' => $ev,
+                        'type' => $type,
+                        'parent_id' => $parent_id,
+                        'evaluate_id' => $advisor_id
+                    ];
+                    $keys = join(',',array_keys($data));
+                    $values = array_values($data);
+                    $insert_id = insert($keys,'evaluation','?,?,?,?',$values);
+                    if($insert_id)
+                        $flag = true;
+                }
 
-                        if(isset($managers)){
-                            $sum=0;
-                            foreach ($managers as $m) {
-                                $sum+=$m['result'];
-                                $count=$m['counter'];
-                            }
-                            $managers_review=$sum/$count;
+                if($flag == true) {
+                    $ev_manager_count = selectOne('count(*) as count','evaluation',"type = 'manager' evaluate_id = {$advisor_id}");
+                    $count_m = $ev_manager_count['count'];
+                    $m_avg = 0;
+                    if($count_m > 0) {
+                        $ev_manager = selectAll('*','evaluation',"type = 'manager' evaluate_id = {$advisor_id}");
+                        $m_sum = 0;
+                        foreach($ev_manager as $ev_m) {
+                            $m_sum += $ev_m['result'];
                         }
-                        if(isset($parents)){
-                            $sum=0;
-                            foreach ($parents as $p) {
-                                $sum+=$p['result'];
-                                $count=$p['counter'];
-                            }
-                            $parents_review=$sum/$count;
-                        }
-
-                        $final_review=($managers_review+$parents_review)/2;
-                        if(isset($final_review))
-                        {
-                            $data = [
-                                'review'=>$final_review,
-                                'id'=>$advisor_id
-                            ];
-                            $success = update('review = ?','staff',array_values($data),'id = ?');
-                        }
-
+                        $m_avg = $m_sum/$count_m;
                     }
+
+                    $ev_parent_count = selectOne('count(*) as count','evaluation',"type = 'parent' evaluate_id = {$advisor_id}");
+                    $count_p = $ev_parent_count['count'];
+                    $p_avg = 0;
+                    if($count_p > 0) {
+                        $ev_parent = selectAll('*','evaluation',"type = 'parent' evaluate_id = {$advisor_id}");
+                        $p_sum = 0;
+                        foreach($ev_parent as $ev_p) {
+                            $p_sum += $ev_p['result'];
+                        }
+                        $p_avg = $p_sum/$count_p;
+                    }
+                    $avgResult = ( $m_avg + $p_avg ) / 2 ;
+                    if($avgResult >= 75) {
+                        $review = 'Excellent';
+                    } else if ($avgResult < 75 && $avgResult >= 50) {
+                        $review = 'Very Good';
+                    } else if ($avgResult < 50 && $avgResult >= 25) {
+                        $review = 'Good';
+                    } else  {
+                        $review = 'Bad';
+                    }
+                    $data = [$review,$advisor_id];
+                    $success = update('review = ?','staff',$data,'id = ?');
+                    if($success) {
+                        $_SESSION['msg'] = "Evaluation Done Successfuly";
+                        $this->showKidsAdvisors();
+                    }
+
+                }
             }
         }
-        else{
-
-        }
-
     }
 }
 
