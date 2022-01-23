@@ -28,12 +28,12 @@
             <div>
               <label for="title">Title</label>
 
-              <input type="text" name="title" id="title" title="Enter title" required
+              <input type="text" name="title" id="title" title="Enter title" placeholder="Enter title" required
                 value="<?php if(isset($_SESSION['errors'])) {echo $title;}else {echo $_SESSION['new']['title'];}?>">
             </div>
 			      <div>
                 <label for="content">Content</label>
-                <textarea name="content" id="content" rows="6" title="Enter content" required><?php if(isset($_SESSION['errors'])) {echo $content;}else {echo $_SESSION['new']['content'];}?></textarea>
+                <textarea name="content" id="content" rows="6" title="Enter content" placeholder="Enter content" required><?php if(isset($_SESSION['errors'])) {echo $content;}else {echo $_SESSION['new']['content'];}?></textarea>
             </div>
             <div>
               <input type="submit" name="update_new" value="Edit">

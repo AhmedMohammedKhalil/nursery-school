@@ -27,12 +27,12 @@
           <div style="display: flex;justify-content:center;flex-direction:column">
             <div>
               <label for="title">Title</label>
-              <input type="text" name="title" id="title" title="Enter title" required
+              <input type="text" name="title" id="title" title="Enter title" placeholder="Enter title" required
                 value="<?php if(isset($_SESSION['errors'])) {echo $title;}else {echo $_SESSION['service']['title'];}?>">
             </div>
 			      <div>
                 <label for="body">Body</label>
-                <textarea name="body" id="body" rows="6" title="Enter body" required><?php if(isset($_SESSION['errors'])) {echo $body;}else {echo $_SESSION['service']['body'];}?></textarea>
+                <textarea name="body" id="body" rows="6" title="Enter body" placeholder="Enter body" required><?php if(isset($_SESSION['errors'])) {echo $body;}else {echo $_SESSION['service']['body'];}?></textarea>
             </div>
             <div>
               <input type="submit" name="update_service" value="Edit">

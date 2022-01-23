@@ -6,9 +6,8 @@
           <div class="container">
             <div class="section-content">
               <div class="text">
-                <p>LLorem ipsum dolor sit amet consectetur adipisicing elit. Minus, sapiente. Velit iure exercitationem dolores nesciunt dolore. Eum officiis dolorum hic voluptate quaerat minima, similique inventore esse,alias, sed quo officia?</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, sapiente. Velit iure exercitationem dolores nesciunt dolore. Eum officiis dolorum hic voluptate quaerat minima, similique inventore esse,alias, sed quo officia?</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, sapiente. Velit iure exercitationem dolores nesciunt dolore. Eum officiis dolorum hic voluptate quaerat minima, similique inventore esse,alias, sed quo officia?</p>
+                <p>A trip to the book fair</p>
+                <p>A trip to the science center</p>
               </div>
             </div>
           </div>

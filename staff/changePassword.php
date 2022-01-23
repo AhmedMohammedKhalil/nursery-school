@@ -25,11 +25,11 @@
             
             <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" title="Enter Password" required>
+                <input type="password" name="password" id="password"  title="Enter Password" placeholder="Enter Password" required>
             </div>
             <div>
                 <label for="confirm_password">Confirm Password</label>
-                <input type="password" name="confirm_password" id="confirm_password" title="Enter Password again" required>
+                <input type="password" name="confirm_password" id="confirm_password"  title="Enter Password again" placeholder="Enter Password again" required>
             </div>
             <div>
               <input type="submit" name="change_password" value="Change Password">

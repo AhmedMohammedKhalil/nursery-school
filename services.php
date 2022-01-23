@@ -14,7 +14,7 @@
         <form action="<?php echo $cont."HomeController.php?method=search"?>" class="form" method="POST">
           <div style="display: flex;justify-content:center">
             <div>
-              <input type="search" name="search" id="searching" placeholder="Search..." value="<?php if(isset($_SESSION['oldsearch'])) echo $_SESSION['oldsearch']; ?>">
+              <input type="search" name="search" id="searching"  title="Search..." placeholder="Search..." value="<?php if(isset($_SESSION['oldsearch'])) echo $_SESSION['oldsearch']; ?>">
             </div>
             <div>
               <input type="submit" value="Search" name="servicesearch">

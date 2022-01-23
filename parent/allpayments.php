@@ -17,10 +17,7 @@
 
 
 
-<div class="section" id="kids" style="min-height: 76.3vh;">
-<div style="text-align: center;">
-          <a class="button" href="<?php echo $cont.'ParentController.php?method=addPaymentToAllKids'?>">Add Kids Payments</a>
-        </div>
+    <div class="section" id="kids" style="min-height: 76.3vh;">
         <div class="container">
           <h2 class="special-heading">All Payments</h2>
           <table id="table" style="margin-top: 20px;">
@@ -31,7 +28,7 @@
             </tr>
             <?php foreach ($payments as $p) {?>
             <tr>
-              <td><a href="<?php echo $cont.'ParentController.php?method=showKid&id='.$p['k_id'] ?>"><?php echo $p['fname'].$p['lname']?></a></td>
+              <td><a href="<?php echo $cont.'ParentController.php?method=showKid&id='.$p['k_id'] ?>"><?php echo $p['fname'].' '.$p['lname']?></a></td>
               <td><?php echo $p['amount']?></a></td>
               <td><?php echo $p['created_at']?></td>
 
@@ -44,7 +41,7 @@
            
           </table>
         </div>
-    </div
+    </div>
 
 
 <?php

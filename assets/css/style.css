@@ -193,7 +193,6 @@ body {
   font-size: 19px;
   line-height: 1.8;
 }
-
 /*end*/
 
 /*sections*/
@@ -230,7 +229,6 @@ body {
 .section .section-content .text p{
   font-weight: bold;
   line-height: 2;
-  margin-bottom: 50px;
 }
 .section .section-content .text hr {
   width: 50%;
@@ -252,14 +250,12 @@ body {
   margin-top: 0;
 }
 
-#activites .text {
-    width: 300vw;
-    display: flex;
-}
+
 
 #activites .text p{
   margin: 0;
-  padding: 15px;
+  padding: 5px;
+  padding-left: 35px;
   width: 100vw;
   box-sizing: border-box;
   white-space: break-spaces;

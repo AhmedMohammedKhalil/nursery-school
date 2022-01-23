@@ -14,7 +14,7 @@
 	<div class="section" id="ADD_Contact" style="margin-bottom: 33px;">
       <div class="container">
         <h2 class="special-heading">Add Contact</h2>
-        <form action="<?php echo $cont."ContactController.php?method=addContact"?>" method="POST" class="form">
+        <form action="<?php echo $cont."ContactController.php?method=storeContact"?>" method="POST" class="form">
           <?php
             if(isset($_SESSION['errors'])) {
               echo '<ol style="width:fit-content;margin: 0 auto">';
@@ -27,12 +27,12 @@
           <div style="display: flex;justify-content:center;flex-direction:column">
             <div>
               <label for="type">Type</label>
-              <input type="text" name="type" id="type" title="Enter type" required
+              <input type="text" name="type" id="type" title="Enter type" palceholder="Enter type" required
                 value="<?php if(isset($_SESSION['errors'])) echo $type?>">
             </div>
 			      <div>
               <label for="contact">Contact</label>
-              <input type="text" name="contact" id="contact" title="Enter contact" required
+              <input type="text" name="contact" id="contact" title="Enter contact" pattern="[0-9]{8}" maxlength="8" palceholder="Enter contact" required
                 value="<?php if(isset($_SESSION['errors'])) echo $contact?>">
             </div>
             <div>

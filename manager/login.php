@@ -26,12 +26,12 @@
           <div style="display: flex;justify-content:center;flex-direction:column">
             <div>
               <label for="username">Username</label>
-              <input type="text" name="username" id="username" title="Enter Username" required
+              <input type="text" name="username" id="username" title="Enter Username" placeholder="Enter Username" required
                 value="<?php if(isset($_SESSION['errors'])) echo $username?>">
             </div>
             <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" title="Enter Password" required>
+                <input type="password" name="password" id="password" title="Enter Password" placeholder="Enter Password" required>
             </div>
             <div>
             <label class="label" for="captcha">Enter Words in Picture</label>

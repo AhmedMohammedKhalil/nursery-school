@@ -26,11 +26,11 @@
           ?>
           <div style="display: flex;justify-content:center;flex-direction:column">
             <div>
-              <input type="text" name="type" id="type" title="Enter type" required
+              <input type="text" name="type" id="type" title="Enter type" placeholder="Enter type" required
                 value="<?php if(isset($_SESSION['errors'])) {echo $type;} else {echo $_SESSION['contact']['type'];}?>">
             </div>
 			      <div>
-              <input type="text" name="contact" id="contact" title="Enter contact" required
+              <input type="text" name="contact" id="contact" title="Enter contact" pattern="[0-9]{8}" maxlength="8" placeholder="Enter contact" required
                 value="<?php if(isset($_SESSION['errors'])){ echo $contact ;} else {echo $_SESSION['contact']['contact'];}?>">
             </div>
             <div>

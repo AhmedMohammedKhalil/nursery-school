@@ -14,7 +14,7 @@
                 <input type="hidden" name='id' value="<?php echo $_SESSION['kid_id']?>">
                 <div>
                     <label for="advisor">choose advisor</label>
-                    <select name="advisor" id="advisor" title="choose advisor" required>
+                    <select name="advisor" id="advisor" title="choose advisor" aria-placeholder="choose advisor" required>
                         <?php 
                             $advisors = $_SESSION['advisors']; 
                             foreach($advisors as $advisor) {

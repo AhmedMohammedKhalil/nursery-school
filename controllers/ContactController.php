@@ -69,7 +69,6 @@ class ContactController {
                 $id = insert($keys,'contacts','?,?',$inserted);
                 if(!empty($id)) {
                     $_SESSION['msg'] = "Contact Added Successfuly";
-
                     $this->showContacts();
                 }
             }

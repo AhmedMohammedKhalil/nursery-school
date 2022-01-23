@@ -21,9 +21,6 @@ $kids=$_SESSION['kids'];
         </p>
 <?php } ?>
 	<div class="section" id="accept-kid" style="min-height: 76.3vh;">
-        <div style="text-align: center;">
-          <a class="button" href="<?php echo $cont.'ParentController.php?method=addPaymentToAllKids'?>">Add Kids Payments</a>
-        </div>
         <div class="container">
           <h2 class="special-heading">Add Kid Payment</h2>
           <?php

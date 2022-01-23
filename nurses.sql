@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2022 at 12:50 AM
+-- Generation Time: Jan 23, 2022 at 04:11 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -39,7 +39,8 @@ CREATE TABLE `contacts` (
 
 INSERT INTO `contacts` (`id`, `type`, `contact`) VALUES
 (1, 'Facebook', 'www.facebook.com'),
-(2, 'Email', 'nurses@email.com');
+(2, 'Email', 'nurses@email.com'),
+(3, 'phone', '69532152');
 
 -- --------------------------------------------------------
 
@@ -51,9 +52,19 @@ CREATE TABLE `evaluation` (
   `id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
   `result` varchar(50) NOT NULL,
-  `type_id` int(11) NOT NULL,
-  `staff_id` int(11) NOT NULL
+  `evaluate_id` int(11) NOT NULL,
+  `staff_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `evaluation`
+--
+
+INSERT INTO `evaluation` (`id`, `type`, `result`, `evaluate_id`, `staff_id`, `parent_id`) VALUES
+(1, 'manager', '100', 3, 2, NULL),
+(4, 'parent', '100', 3, NULL, 4),
+(5, 'manager', '64.285714285714', 5, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -79,7 +90,10 @@ CREATE TABLE `kids` (
 --
 
 INSERT INTO `kids` (`id`, `fname`, `lname`, `vaccination`, `class`, `birth_date`, `description`, `parent_id`, `staff_id`, `status`) VALUES
-(29, 'Martha', 'Mccray', 'Yes', 'Velit corporis sapie', '03-Feb-2002', 'Ea totam ipsum labo', 3, NULL, 'not accepted');
+(30, 'saad', 'ahmed', 'Yes', 'KJ2', '10-Apr-2014', 'description', 3, 3, 'accepted'),
+(31, 'tala', 'ahmed', 'No', 'KJ1', '16-Aug-2015', 'details', 3, NULL, 'not accepted'),
+(32, 'sama', 'mohamed', 'Yes', 'KJ3', '24-Feb-2013', 'description', 4, 5, 'accepted'),
+(33, 'yassen', 'mohamed', 'No', 'KJ1', '05-Mar-2015', 'description', 4, NULL, 'not accepted');
 
 -- --------------------------------------------------------
 
@@ -98,9 +112,8 @@ CREATE TABLE `news` (
 --
 
 INSERT INTO `news` (`id`, `title`, `content`) VALUES
-(1, 'news title', 'news content test news content test news content test news content test news content test news content test news content test news content test news content testnews content test'),
-(2, 'test', 'news content test news content test news content test news content test news content test news content test news content test news content test news content testnews content test'),
-(3, 'test 2', 'news content test news content test news content test news content test news content test news content test news content test news content test news content testnews content test');
+(4, 'News Title', 'Details about News'),
+(5, 'News Title', 'Content');
 
 -- --------------------------------------------------------
 
@@ -110,7 +123,7 @@ INSERT INTO `news` (`id`, `title`, `content`) VALUES
 
 CREATE TABLE `notifications` (
   `id` int(11) NOT NULL,
-  `meesage_to` varchar(50) NOT NULL,
+  `message_to` varchar(50) NOT NULL,
   `message` text NOT NULL,
   `staff_id` int(11) NOT NULL,
   `kid_id` int(11) NOT NULL
@@ -120,8 +133,15 @@ CREATE TABLE `notifications` (
 -- Dumping data for table `notifications`
 --
 
-INSERT INTO `notifications` (`id`, `meesage_to`, `message`, `staff_id`, `kid_id`) VALUES
-(4, 'staff', 'New kids added', 1, 29);
+INSERT INTO `notifications` (`id`, `message_to`, `message`, `staff_id`, `kid_id`) VALUES
+(5, 'staff', 'New kids added', 1, 30),
+(6, 'staff', 'New kids added', 1, 31),
+(7, 'staff', 'New kids added', 1, 32),
+(8, 'parent', 'your Kid Accepted', 3, 30),
+(12, 'parent', 'Must be Add Payment for your kid', 3, 30),
+(14, 'staff', 'New kids added', 1, 33),
+(15, 'parent', 'your Kid Accepted', 5, 32),
+(16, 'staff', 'Payment Done successfuly', 3, 30);
 
 -- --------------------------------------------------------
 
@@ -144,7 +164,8 @@ CREATE TABLE `parent` (
 --
 
 INSERT INTO `parent` (`id`, `username`, `name`, `ssn`, `address`, `password`, `created_at`) VALUES
-(3, 'ahmed karam', 'ahmed', '123456789123456', 'address\r\naddress', '$2y$10$fDnn48mD/3MD2UWz1aRIqeqcGnqhM0oPIixgRS0WlRtcR8dkSwCJO', '2022-01-13 21:06:31');
+(3, 'ahmed omran', 'ahmed', '653291736582', 'Kuwait city', '$2y$10$t7oAuWKQZ.hWsqLnteGpDeJUchRUwYw56iRaecnACrArP8e9EyCBK', '2022-01-13 21:06:31'),
+(4, 'mohamed talal', 'mohamed', '658235469213', 'Kuwait city', '$2y$10$t7oAuWKQZ.hWsqLnteGpDeJUchRUwYw56iRaecnACrArP8e9EyCBK', '2022-01-23 02:27:55');
 
 -- --------------------------------------------------------
 
@@ -163,7 +184,8 @@ CREATE TABLE `parent_phone` (
 --
 
 INSERT INTO `parent_phone` (`id`, `parent_id`, `phone`) VALUES
-(1, 3, '695325');
+(1, 3, '69532581'),
+(2, 4, '65921545');
 
 -- --------------------------------------------------------
 
@@ -174,11 +196,17 @@ INSERT INTO `parent_phone` (`id`, `parent_id`, `phone`) VALUES
 CREATE TABLE `payments` (
   `id` int(11) NOT NULL,
   `description` text NOT NULL,
-  `status` text NOT NULL,
   `amount` double NOT NULL,
   `kids_id` int(11) NOT NULL,
-  `created_at` int(11) NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `description`, `amount`, `kids_id`, `created_at`) VALUES
+(1, 'By master card', 120, 30, '2022-01-23 15:04:18');
 
 -- --------------------------------------------------------
 
@@ -191,6 +219,14 @@ CREATE TABLE `services` (
   `title` varchar(50) NOT NULL,
   `body` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `services`
+--
+
+INSERT INTO `services` (`id`, `title`, `body`) VALUES
+(4, 'Service Title', 'Content'),
+(5, 'service Title', 'details');
 
 -- --------------------------------------------------------
 
@@ -214,8 +250,10 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`id`, `username`, `name`, `position`, `password`, `role`, `created_at`, `review`) VALUES
-(1, 'Ahmed Khalil', 'ahmed', 'staff', '$2y$10$QG3z8JoTH6FKJlDo/J5/BuoGIzNEZdWq3WE.Dcccn5jAgaDu7./4a', 'staff', '2022-01-13 21:32:09', ''),
-(2, 'admin', 'admin', 'management', '$2y$10$f00v0n.gRRofdF0emBE02eU8EoTTfX9Dn0e9ltV784j6YFeTkKrUe', 'manger', '2022-01-13', '');
+(1, 'talal saadawy', 'talal', 'staff', '$2y$10$t7oAuWKQZ.hWsqLnteGpDeJUchRUwYw56iRaecnACrArP8e9EyCBK', 'staff', '2022-01-13 21:32:09', ''),
+(2, 'admin', 'administrator', 'management', '$2y$10$t7oAuWKQZ.hWsqLnteGpDeJUchRUwYw56iRaecnACrArP8e9EyCBK', 'manager', '2022-01-13 18:32:09', ''),
+(3, 'hamad abdalla', 'hamad', 'teacher', '$2y$10$t7oAuWKQZ.hWsqLnteGpDeJUchRUwYw56iRaecnACrArP8e9EyCBK', 'advisor', '2022-01-17 04:44:53', 'Excellent'),
+(5, 'abdalla mohammed', 'abdalla', 'Teacher', '$2y$10$t7oAuWKQZ.hWsqLnteGpDeJUchRUwYw56iRaecnACrArP8e9EyCBK', 'advisor', '2022-01-22 04:00:57', 'Good');
 
 --
 -- Indexes for dumped tables
@@ -232,7 +270,8 @@ ALTER TABLE `contacts`
 --
 ALTER TABLE `evaluation`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `staff_id` (`staff_id`);
+  ADD KEY `staff_id` (`staff_id`),
+  ADD KEY `parent_id` (`parent_id`);
 
 --
 -- Indexes for table `kids`
@@ -298,61 +337,61 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `evaluation`
 --
 ALTER TABLE `evaluation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `kids`
 --
 ALTER TABLE `kids`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `parent`
 --
 ALTER TABLE `parent`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `parent_phone`
 --
 ALTER TABLE `parent_phone`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -362,7 +401,8 @@ ALTER TABLE `staff`
 -- Constraints for table `evaluation`
 --
 ALTER TABLE `evaluation`
-  ADD CONSTRAINT `evaluation_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `evaluation_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `evaluation_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `parent` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `kids`

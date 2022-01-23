@@ -49,14 +49,22 @@
             </div>
             <div class="text">
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil nemo neque voluptate tempora velit cum non,
-                fuga vitae architecto delectus sed maxime rerum impedit aliquam obcaecati, aut excepturi iusto laudantium!
+                Our emphasis is on educating the whole child – the entire emotional, social, physical, creative and intellectual being. </p>
+            <hr />
+            <p>
+                We value and respect each child as an individual and as an important part of our school family. Social development is a central focus of our program, which builds the foundation for successful learning. 
             </p>
             <hr />
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, sapiente. Velit iure exercitationem
-                dolores nesciunt dolore. Eum officiis dolorum hic voluptate quaerat minima, similique inventore esse,
-                alias, sed quo officia?
+                Children are given many opportunities to make their own choices and participate in decision-making.
+            </p>
+            <hr />
+            <p>
+                Each class is taught by two team teachers, highly trained in child development and appropriate practices. 
+            </p>
+            <hr />
+            <p>
+                Our teachers bring a wealth of experience to the classroom and particpate in ongoing staff development opportunities.             
             </p>
             </div>
         </div>
